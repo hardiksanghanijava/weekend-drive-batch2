@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miniproject.backend_course.entity.Positions;
+import com.miniproject.backend_course.exception.ScheduledInterviewNotFoundException;
 import com.miniproject.backend_course.service.PositionService;
 
 
@@ -54,6 +55,8 @@ public class PositionController {
 		
 		
 		if (positions==null) {
+			
+			
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			
 		}
