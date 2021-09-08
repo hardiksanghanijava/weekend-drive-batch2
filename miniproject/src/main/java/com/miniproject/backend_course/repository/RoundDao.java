@@ -6,7 +6,7 @@ import com.miniproject.backend_course.entity.Round;
 
 
 
-public interface RoundDao extends JpaRepository<Round, Long> {
+public interface RoundDao extends JpaRepository<Round, Integer> {
 	  
-	public Round findById(long id);
+	
 }

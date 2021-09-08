@@ -6,6 +6,6 @@ import com.miniproject.backend_course.entity.Positions;
 
 
 
-public interface PositionDao extends JpaRepository<Positions, Long> {
-	public Positions findById(long id);
+public interface PositionDao extends JpaRepository<Positions, Integer> {
+	
 }

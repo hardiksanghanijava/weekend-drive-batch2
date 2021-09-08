@@ -10,14 +10,20 @@ public interface PositionService {
       
 	public List<Positions> getPositions();
 
-	public Positions getPosition(long positionid);
+	public Positions getPosition(int positionid);
 
 	public Positions addPosition(Positions positions);
 
-	public void deletePostion(long parseLong);
 
-	//public Positions updatePosition(Positions positions);
 
-	public void updatePosition(Positions positions, int positionid);
+	
+
+	public Positions updatePosition(Positions positions);
+
+	
+
+	public String deleteposition(int positionid);
+
+	
 	
 }

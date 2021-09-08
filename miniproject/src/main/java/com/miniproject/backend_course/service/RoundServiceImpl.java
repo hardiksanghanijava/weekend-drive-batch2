@@ -21,30 +21,35 @@ public class RoundServiceImpl implements RoundService {
 	}
 
 	@Override
-	public Round getroRound(long id) {
+	public Round getroRound(int id) {
 		
-		return roundDao.findById(id);
+		return roundDao.findById(id).orElse(null);
 	}
 
 	
 
 	@Override
-	public void deleteRound(long id) {
+	public String deleteRound(int id) {
 		roundDao.deleteById(id);
-		
+		return "Round deleted"+id;
 	}
 
-	@Override
-	public void updateRound(Round round, int roundid) {
-		   round.setId(roundid);
-		   roundDao.save(round);
-		
-	}
+	
 
 	@Override
-	public Round addround(Round round) {
+	public Round addRound(Round round) {
 		roundDao.save(round);
 		return round;
 	}
+
+	@Override
+	public Round updateRound(Round round) {
+	      Round r1 = roundDao.findById(round.getId()).orElse(null);
+	      r1.setName(round.getName());
+	      r1.setSeq(round.getSeq());
+		return roundDao.save(r1);
+	}
+
+	
 
 }

@@ -12,13 +12,19 @@ public interface RoundService {
 	
 	public List<Round> getroRounds();
 
-	public Round getroRound(long positionid);
+	public Round getroRound(int positionid);
 
-    public void deleteRound(long parseLong);
+    public String deleteRound(int id);
 
 
-	public void updateRound(Round positions, int positionid);
+	
 
-	public Round addround(Round round);
+	
+
+	public Round updateRound(Round round);
+
+	
+
+	public Round addRound(Round round);
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -11,14 +12,15 @@ import javax.persistence.OneToMany;
 public class Round {
 	
 	    @Id
-		private long id;
+	    @GeneratedValue
+		private int id;
 		private String name;
 		private int seq;
 		
 		@OneToMany(targetEntity=Interview.class)
 	    private List<Interview> interviews=new ArrayList<>();
 		
-		public Round(long id, String name, int seq) {
+		public Round(int id, String name, int seq) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -29,11 +31,11 @@ public class Round {
 			super();
 		}
 
-		public long getId() {
+		public int getId() {
 			return id;
 		}
 
-		public void setId(long id) {
+		public void setId(int id) {
 			this.id = id;
 		}
 

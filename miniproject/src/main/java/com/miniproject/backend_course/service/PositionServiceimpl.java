@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.miniproject.backend_course.entity.Positions;
 import com.miniproject.backend_course.repository.PositionDao;
 
@@ -13,44 +14,44 @@ import com.miniproject.backend_course.repository.PositionDao;
 @Service
 public class PositionServiceimpl implements PositionService {
 	@Autowired
-	private PositionDao positionDao;
-	
+	private PositionDao positionrepositiory;
+
 	@Override
 	public List<Positions> getPositions() {
-		return positionDao.findAll();
+		
+		return positionrepositiory.findAll();
 	}
 
-	//@SuppressWarnings("deprecation")
 	@Override
-	public Positions getPosition(long positionid) {
-		return positionDao.findById(positionid);
+	public Positions getPosition(int positionid) {
+		 return positionrepositiory.findById(positionid).orElse(null);
+		
 	}
 
 	@Override
 	public Positions addPosition(Positions positions) {
-		positionDao.save(positions);
-		return positions;
+		return positionrepositiory.save(positions);
 	}
 
-@Override
-	public void deletePostion(long id) {
 	
-		positionDao.deleteById(id);
-	}
-
-//	@Override
-//	public Positions updatePosition(Positions positions) {
-//		positionDao.save(positions);
-//		return positions;
-//	}
 
 	@Override
-	public void updatePosition(Positions positions, int positionid) {
-		positions.setId(positionid);
-		positionDao.save(positions);
-		
-		
+	public Positions updatePosition(Positions positions) {
+		 Positions position = positionrepositiory.findById(positions.getId()).orElse(null);
+	
+	     position.setDescriptionString(positions.getDescriptionString());
+	     position.setTitle(positions.getTitle());
+		return positionrepositiory.save(position);
 	}
+
+	@Override
+	public String deleteposition(int positionid) {
+		positionrepositiory.deleteById(positionid);
+		
+		return "Position deleted "+positionid;
+	}
+	
+	
 	
 
 }
