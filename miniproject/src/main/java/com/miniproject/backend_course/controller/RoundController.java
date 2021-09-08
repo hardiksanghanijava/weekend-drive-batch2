@@ -28,10 +28,7 @@ public class RoundController {
 	@Autowired   
 	RoundService roundservice;
 	
-	/* @GetMapping("/api/interviewer/list")
-	    public List<Interviewer> findAllInterviewers() {
-	        return service.getInterviewers();
-	    }*/
+	
 	
 	@GetMapping("/api/round/list")
 	public List<Round> getAllRound(){
