@@ -12,11 +12,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 
 
 
 @Entity
 @Table(name = "Interview_Table")
+@SQLDelete(sql="UPDATE Interview_Table SET is_deleted =1 WHERE interview_id=?")
+@Where(clause="is_deleted=0")
 public class Interview {
 
     @Id
@@ -25,6 +32,7 @@ public class Interview {
     
     private Timestamp time;
     private String status;
+    private Boolean isDeleted=Boolean.FALSE;
     
     @ManyToOne
     @JoinColumn(name="interviewee_id",nullable=false)
@@ -47,7 +55,7 @@ public class Interview {
     }
     
     
-	public Interview(int interview_id, Timestamp time, String status, Interviewee interviewee,Positions positions,Round rounds,Interviewer interviewer) {
+	public Interview(int interview_id, Timestamp time, String status, Interviewee interviewee,Positions positions,Round rounds,Interviewer interviewer,Boolean isDeleted) {
 		super();
 		this.interview_id = interview_id;
 		this.time = time;
@@ -56,6 +64,7 @@ public class Interview {
 		this.positions=positions;
 		this.rounds=rounds;
 		this.interviewer=interviewer;
+		this.isDeleted=isDeleted;
 	}
 
 
@@ -148,6 +157,17 @@ public class Interview {
 	}
 
 
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+
+	
 	
 
 	

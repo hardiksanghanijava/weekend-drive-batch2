@@ -35,6 +35,11 @@ public class InterviewController {
     
     @GetMapping("/api/interview/schedule/{id}")
     public Interview findInterviews(@PathVariable int id) {
+    	Interview interview = service.getInterviewById(id);
+        
+        if(interview==null) {
+			throw new ScheduledInterviewNotFoundException("invalid interview id "+id);
+		}
         return service.getInterviewById(id);
     }
 
