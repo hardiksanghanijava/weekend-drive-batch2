@@ -2,7 +2,6 @@ package com.miniproject.backend_course.service;
 
 
 import com.miniproject.backend_course.entity.Interview;
-import com.miniproject.backend_course.exception.ScheduledInterviewNotFoundException;
 import com.miniproject.backend_course.repository.InterviewRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

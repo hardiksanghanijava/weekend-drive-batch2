@@ -4,14 +4,12 @@ package com.miniproject.backend_course.controller;
 
 
 import com.miniproject.backend_course.entity.Interview;
-import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
 import com.miniproject.backend_course.exception.ScheduledInterviewNotFoundException;
 import com.miniproject.backend_course.service.InterviewService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.validation.Valid;

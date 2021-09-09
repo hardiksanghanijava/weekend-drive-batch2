@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.miniproject.backend_course.entity.Interviewer;
 import com.miniproject.backend_course.entity.Round;
-import com.miniproject.backend_course.exception.InterviewerNotFoundException;
 import com.miniproject.backend_course.exception.RoundNotFoundException;
 import com.miniproject.backend_course.service.RoundService;
 
