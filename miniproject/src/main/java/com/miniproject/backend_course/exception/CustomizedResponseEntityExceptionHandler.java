@@ -38,6 +38,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 				request.getDescription(false));
 		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(PositionNotFoundException.class)
+	public final ResponseEntity<Object> handlePositionNotFoundException(PositionNotFoundException ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Position not found",
+				request.getDescription(false));
+		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(RoundNotFoundException.class)
+	public final ResponseEntity<Object> handleRoundNotFoundException(RoundNotFoundException ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Round not found",
+				request.getDescription(false));
+		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
 	
 	@ExceptionHandler(ScheduledInterviewNotFoundException.class)
 	public final ResponseEntity<Object> handleInterviewNotFoundException(ScheduledInterviewNotFoundException ex, WebRequest request) {
