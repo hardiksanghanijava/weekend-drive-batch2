@@ -33,7 +33,7 @@ public class InterviewService {
 
     public String deleteInterview(int id) {
         repository.deleteById(id);
-        return "product removed !! " + id;
+        return "interivew removed !! " + id;
     }
 
     /*public Interview updateInterview(Interview interview) {
