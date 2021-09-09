@@ -1,23 +1,15 @@
-package com.miniproject.backend_course.entity;
+package com.miniproject.backend_course.dto;
 
-
-
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.modelmapper.ModelMapper;
 
 
+@DTO
+public class IntervieweeDTO {
 
-@Entity
-@Table(name = "Interviewee_Table")
-public class Interviewee {
-
-    @Id
+	@Id
     @GeneratedValue
     private int id;
     @NotNull(message="not empty")
@@ -25,74 +17,40 @@ public class Interviewee {
     private String skills;
     private String experience;
     private String qualification;
-   
     
     
-   
-	protected Interviewee() {
-    	
-    }
-
-
-	public Interviewee(int id, String name, String skills, String experience, String qualification) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.skills = skills;
-		this.experience = experience;
-		this.qualification = qualification;
-	}
-
-
+	
 	public int getId() {
 		return id;
 	}
-
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
 	public String getName() {
 		return name;
 	}
-
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 	public String getSkills() {
 		return skills;
 	}
-
-
 	public void setSkills(String skills) {
 		this.skills = skills;
 	}
-
-
 	public String getExperience() {
 		return experience;
 	}
-
-
 	public void setExperience(String experience) {
 		this.experience = experience;
 	}
-
-
 	public String getQualification() {
 		return qualification;
 	}
-
-
 	public void setQualification(String qualification) {
 		this.qualification = qualification;
 	}
-	
-	
     
+    
+   
 }

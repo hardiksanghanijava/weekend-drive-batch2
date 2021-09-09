@@ -1,9 +1,13 @@
 package com.miniproject.backend_course.service;
 
 
+import com.miniproject.backend_course.dto.InterviewDTO;
+
 import com.miniproject.backend_course.entity.Interview;
+
 import com.miniproject.backend_course.repository.InterviewRepository;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +16,26 @@ import java.util.List;
 @Service
 public class InterviewService {
     @Autowired
-    private InterviewRepository repository;
+    private InterviewRepository interviewRepository;
 
     public Interview saveInterview(Interview interview) {
-        return repository.save(interview);
+        return interviewRepository.save(interview);
     }
 
     
 
     public List<Interview> getInterviews() {
-        return repository.findAll();
+        return interviewRepository.findAll();
     }
 
     public Interview getInterviewById(int id) {
-        return repository.findById(id).orElse(null);
+        return interviewRepository.findById(id).orElse(null);
     }
 
     
 
     public String deleteInterview(int id) {
-        repository.deleteById(id);
+    	interviewRepository.deleteById(id);
         return "interivew removed !! " + id;
     }
 
@@ -57,16 +61,21 @@ public class InterviewService {
 
 	public Interview updateInterview(Interview interview1, Interview interview) {
 		
-		Interview existingInterview = repository.findById(interview1.getInterview_id()).orElse(null);
+		Interview existingInterview = interviewRepository.findById(interview1.getInterview_id()).orElse(null);
         existingInterview.setTime(interview.getTime());
         existingInterview.setStatus(interview.getStatus());
         existingInterview.setInterviewee(interview.getInterviewee());
         existingInterview.setPositions(interview.getPositions());
         existingInterview.setRounds(interview.getRounds());
         existingInterview.setInterviewer(interview.getInterviewer());
-        return repository.save(existingInterview);
+        return interviewRepository.save(existingInterview);
 	}
 
 
+	public Interview convertToInterviewEntity(InterviewDTO interviewDto) {
+		ModelMapper modelMapper=new ModelMapper();
+		Interview interview=modelMapper.map(interviewDto,Interview.class);
+		return interview;
+	}
 	
 }

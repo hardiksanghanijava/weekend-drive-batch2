@@ -1,8 +1,12 @@
 package com.miniproject.backend_course.controller;
 
 
+import com.miniproject.backend_course.dto.IntervieweeDTO;
+
 import com.miniproject.backend_course.entity.Interviewee;
 import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
+
+
 import com.miniproject.backend_course.service.IntervieweeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +16,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/interviewee")
 public class IntervieweeController {
 
 	// 1. manage proper prefix
@@ -23,19 +27,27 @@ public class IntervieweeController {
     @Autowired
     private IntervieweeService intervieweeService;
 
-    @PostMapping("/api/interviewee/add")
-    public Interviewee addInterviewee(@Valid @RequestBody Interviewee product) {
-        return intervieweeService.saveInterviewee(product);
+    
+    //adding interviewee
+    
+    @PostMapping("/add")
+    public Interviewee addInterviewee(@Valid @RequestBody IntervieweeDTO intervieweeDto) {
+    	Interviewee interviewee=intervieweeService.convertToIntervieweeEntity(intervieweeDto);
+        return intervieweeService.saveInterviewee(interviewee);
     }
 
     
 
-    @GetMapping("/api/interviewee/list")
+    //list of interviewees
+    
+    @GetMapping("/list")
     public List<Interviewee> findAllInterviewees() {
         return intervieweeService.getInterviewees();
     }
 
-    @GetMapping("/api/interviewee/view/{id}")
+    //find interviewee by id
+    
+    @GetMapping("/view/{id}")
     public Interviewee findIntervieweeById(@PathVariable int id) {
         Interviewee interviewee = intervieweeService.getIntervieweeById(id);
         if(interviewee==null) {
@@ -47,12 +59,22 @@ public class IntervieweeController {
 
     
 
-    @PutMapping("/api/interviewee/update/{id}")
-    public Interviewee updateInterviewee(@RequestBody Interviewee product) {
-        return intervieweeService.updateInterviewee(product);
+    //updating interviewee
+    
+    @PutMapping("/update/{id}")
+    public Interviewee updateInterviewee(@PathVariable int id,@RequestBody IntervieweeDTO intervieweeDto) {
+    	Interviewee interviewee=intervieweeService.convertToIntervieweeEntity(intervieweeDto);
+    	Interviewee interviewee1 = intervieweeService.getIntervieweeById(id);
+		if(interviewee1==null) {
+			throw new IntervieweeNotFoundException("id-"+id);
+		}
+        return intervieweeService.updateInterview(interviewee1,interviewee);
+        
     }
 
-    @DeleteMapping("/api/interviewee/delete/{id}")
+    //deleting interviewee
+    
+    @DeleteMapping("/delete/{id}")
     public String deleteIntervieweeById(@PathVariable int id) {
     	Interviewee interviewee = intervieweeService.getIntervieweeById(id);
         if(interviewee==null) {
