@@ -1,12 +1,11 @@
 package com.miniproject.backend_course.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 
 @Entity
 public class Round {
@@ -17,8 +16,7 @@ public class Round {
 		private String name;
 		private int seq;
 		
-		@OneToMany(targetEntity=Interview.class)
-	    private List<Interview> interviews=new ArrayList<>();
+		
 		
 		public Round(int id, String name, int seq) {
 			super();

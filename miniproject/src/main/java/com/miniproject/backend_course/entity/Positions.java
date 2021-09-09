@@ -1,12 +1,10 @@
 package com.miniproject.backend_course.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 
 @Entity
 public class Positions {
@@ -16,8 +14,7 @@ public class Positions {
 	private String title;
 	private String descriptionString;
 	
-	@OneToMany(targetEntity=Interview.class)
-    private List<Interview> interviews=new ArrayList<>();
+	
     
 	public Positions(int id, String title, String descriptionString) {
 		super();

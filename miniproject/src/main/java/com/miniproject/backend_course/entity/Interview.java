@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -24,6 +26,7 @@ public class Interview {
     private int interview_id;
     
     private Timestamp time;
+    @NotNull(message="not empty")
     private String status;
     private Boolean isDeleted=Boolean.FALSE;
     
