@@ -30,7 +30,6 @@ public class IntervieweeService {
 
     public String deleteInterviewee(int id) {
         repository.deleteById(id);
-        return "product removed !! " + id;
         return "interviewee removed !! " + id;
     }
 
