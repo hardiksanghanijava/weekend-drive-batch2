@@ -1,33 +1,39 @@
 package com.miniproject.backend_course.dto;
 
-import lombok.Data;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-@Data
+@DTO
 public class RoundDto {
-    
+
+	@Id
+	@GeneratedValue
 	private int id;
 	private String name;
-	private int seq;
+	private int sequence;
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getSeq() {
-		return seq;
+
+	public int getSequence() {
+		return sequence;
 	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
-	
-	
-	
-	
+
 }

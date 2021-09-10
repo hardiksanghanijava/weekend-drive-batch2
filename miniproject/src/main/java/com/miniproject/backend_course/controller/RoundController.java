@@ -14,69 +14,70 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.miniproject.backend_course.converter.RoundConverter;
 import com.miniproject.backend_course.dto.RoundDto;
 import com.miniproject.backend_course.entity.Round;
 import com.miniproject.backend_course.exception.RoundNotFoundException;
 import com.miniproject.backend_course.service.RoundService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/round")
 public class RoundController {
 
 	@Autowired
 	RoundService roundservice;
-	@Autowired
-	RoundConverter roundConverter;
-     
-	
-	
-	@GetMapping("/round/list")
-	public List<RoundDto> getAllRound() {
-		List<Round> findall = this.roundservice.getroRounds();
-		return roundConverter.entityToDto(findall);
-	}
-	
-	@GetMapping("/api/round/view/{id}")
-	public RoundDto getRoundById(@PathVariable("id") int id) {
 
-		Round round = this.roundservice.getroRound(id);
+	@GetMapping("/list")
+	public List<Round> getAllRound() {
+		return roundservice.getroRounds();
+	}
+
+	@GetMapping("/view/{id}")
+	public Round findRoundById(@PathVariable("id") int id) {
+
+		Round round = this.roundservice.getroRoundById(id);
 
 		if (round == null) {
 			throw new RoundNotFoundException("invalid interviewer id " + id);
 
 		}
 
-		return roundConverter.entityToDto(round);
+		return round;
 
 	}
-	
-	
 
-	@PostMapping("/api/round/add")
-	public RoundDto addRoundById(@Valid @RequestBody RoundDto roundDto) {
-		Round round  = roundConverter.dtoToEntity(roundDto);
-		round = roundservice.addRound(round);
-		return roundConverter.entityToDto(round);
-	}
-	
-	
-	
+	/**
+	 * @param roundDto
+	 * @return
+	 */
+	@PostMapping("/add")
+	public Round addRound(@Valid @RequestBody RoundDto roundDto) {
+		Round round = roundservice.convertToRoundEntity(roundDto);
 
-	@PutMapping("/api/round/update/")
-	public Round updateround(@RequestBody Round round) {
-
-		return this.roundservice.updateRound(round);
+		return roundservice.saveRound(round);
 	}
 
-	@DeleteMapping("/api/round/delete/{roundid}")
-	public String deleteround(@PathVariable("roundid") int roundid) {
-		Round round = this.roundservice.getroRound(roundid);
+	/**
+	 * @param id
+	 * @param roundDto
+	 * @return
+	 */
+	@PutMapping("/update/{id}")
+	public Round updateroundById(@PathVariable int id, @RequestBody RoundDto roundDto) {
+		Round round = roundservice.convertToRoundEntity(roundDto);
+		Round round1 = roundservice.getroRoundById(id);
+		if (round1 == null) {
+			throw new RoundNotFoundException("id--" + id);
+		}
+		return this.roundservice.updateRound(round1, round);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public String deleteRoundById(@PathVariable("id") int id) {
+		Round round = this.roundservice.getroRoundById(id);
 		if (round == null) {
-			throw new RoundNotFoundException("id--" + roundid);
+			throw new RoundNotFoundException("id--" + id);
 		} else {
-			return this.roundservice.deleteRound(roundid);
+			return this.roundservice.deleteRound(id);
 		}
 	}
 

@@ -1,9 +1,8 @@
 package com.miniproject.backend_course.controller;
 
-
-
+import com.miniproject.backend_course.dto.InterviewerDto;
 import com.miniproject.backend_course.entity.Interviewer;
-
+import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
 import com.miniproject.backend_course.exception.InterviewerNotFoundException;
 
 import com.miniproject.backend_course.service.InterviewerService;
@@ -16,49 +15,54 @@ import java.util.List;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("/api/interviewer")
 public class InterviewerController {
 
-    @Autowired
-    private InterviewerService service;
+	@Autowired
+	private InterviewerService interviewerService;
 
-    @PostMapping("/api/interviewer/add")
-    public Interviewer addInterviewer(@Valid @RequestBody Interviewer interviewer) {
-        return service.saveInterviewer(interviewer);
-    }
+	/**
+	 * @param interviewerDto
+	 * @return
+	 */
+	@PostMapping("/add")
+	public Interviewer addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto) {
+		Interviewer interviewer = interviewerService.convertToInterviewerEntity(interviewerDto);
+		return interviewerService.saveInterviewer(interviewer);
+	}
 
-    
+	@GetMapping("/list")
+	public List<Interviewer> findAllInterviewers() {
+		return interviewerService.getInterviewers();
+	}
 
-    @GetMapping("/api/interviewer/list")
-    public List<Interviewer> findAllInterviewers() {
-        return service.getInterviewers();
-    }
-
-    @GetMapping("/api/interviewer/view/{id}")
-    public Interviewer findInterviewerById(@PathVariable int id) {
-        Interviewer interviewer = service.getInterviewerById(id);
-        if(interviewer==null) {
-			throw new InterviewerNotFoundException("invalid interviewer id "+id);
+	@GetMapping("/view/{id}")
+	public Interviewer findInterviewerById(@PathVariable int id) {
+		Interviewer interviewer = interviewerService.getInterviewerById(id);
+		if (interviewer == null) {
+			throw new InterviewerNotFoundException("invalid interviewer id " + id);
 		}
-		
-        return interviewer;
-    }
 
-    
+		return interviewer;
+	}
 
-    @PutMapping("/api/interviewer/update")
-    public Interviewer updateInterviewer(@RequestBody Interviewer interviewer) {
-        return service.updateInterviewer(interviewer);
-    }
-
-    @DeleteMapping("/api/interviewer/delete/{id}")
-    public String deleteInterviewerById(@PathVariable int id) {
-    	Interviewer interviewer = service.getInterviewerById(id);
-        if(interviewer==null) {
-			throw new InterviewerNotFoundException("id-"+id);
+	@PutMapping("/update/{id}")
+	public Interviewer updateInterviewerById(@PathVariable int id, @RequestBody InterviewerDto interviewerDto) {
+		Interviewer interviewer = interviewerService.convertToInterviewerEntity(interviewerDto);
+		Interviewer interviewer1 = interviewerService.getInterviewerById(id);
+		if (interviewer1 == null) {
+			throw new IntervieweeNotFoundException("id--" + id);
 		}
-        else
-        	return service.deleteInterviewer(id);
-		
-        
-    }
+		return interviewerService.updateInterviewer(interviewer1, interviewer);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public String deleteInterviewerById(@PathVariable int id) {
+		Interviewer interviewer = interviewerService.getInterviewerById(id);
+		if (interviewer == null) {
+			throw new InterviewerNotFoundException("id-" + id);
+		} else
+			return interviewerService.deleteInterviewer(id);
+
+	}
 }

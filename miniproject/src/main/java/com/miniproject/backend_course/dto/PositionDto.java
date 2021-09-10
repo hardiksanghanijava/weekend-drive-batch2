@@ -1,31 +1,40 @@
 package com.miniproject.backend_course.dto;
 
-import lombok.Data;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-@Data
+@DTO
 public class PositionDto {
-    
+
+	@Id
+	@GeneratedValue
 	private int id;
+
 	private String title;
-	private String descriString;
+	private String description;
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getDescriString() {
-		return descriString;
+
+	public String getDescription() {
+		return description;
 	}
-	public void setDescriString(String descriString) {
-		this.descriString = descriString;
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
-	
+
 }

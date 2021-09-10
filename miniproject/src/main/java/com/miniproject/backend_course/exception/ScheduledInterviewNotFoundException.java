@@ -8,6 +8,6 @@ public class ScheduledInterviewNotFoundException extends RuntimeException {
 
 	public ScheduledInterviewNotFoundException(String message) {
 		super(message);
-		
+
 	}
 }

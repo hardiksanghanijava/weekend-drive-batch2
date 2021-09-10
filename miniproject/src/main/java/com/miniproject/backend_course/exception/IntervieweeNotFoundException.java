@@ -8,6 +8,6 @@ public class IntervieweeNotFoundException extends RuntimeException {
 
 	public IntervieweeNotFoundException(String message) {
 		super(message);
-		
+
 	}
 }

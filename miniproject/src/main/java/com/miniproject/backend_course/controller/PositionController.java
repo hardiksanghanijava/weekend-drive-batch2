@@ -13,70 +13,74 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.miniproject.backend_course.converter.PositionConverter;
 import com.miniproject.backend_course.dto.PositionDto;
 import com.miniproject.backend_course.entity.Positions;
-
 import com.miniproject.backend_course.exception.PositionNotFoundException;
-
 import com.miniproject.backend_course.service.PositionService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/position")
 public class PositionController {
 
 	@Autowired
 	private PositionService positionService;
-	
-	@Autowired
-	private PositionConverter positionConverter;
-	
-
 
 	// get list of all position
-	@GetMapping("/position/list")
-	public List<PositionDto> findAllpositions() {
-		List<Positions> findall = this.positionService.getPositions();
-		return positionConverter.entityToDto(findall);
+	@GetMapping("/list")
+	public List<Positions> findAllPositions() {
+		return this.positionService.getPositions();
+
 	}
-	
-	
 
 	// get list of only one position
-	@GetMapping("/position/view/{id}")
-	public PositionDto findPositionById(@PathVariable int id) {
+	@GetMapping("/view/{id}")
+	public Positions findPositionsById(@PathVariable int id) {
 
-		Positions position = positionService.getPosition(id);
+		Positions position = positionService.getPositionsById(id);
 		if (position == null) {
 			throw new PositionNotFoundException("invalid position id " + id);
 		}
 
-		return positionConverter.entityToDto(position);
+		return position;
 	}
-    
+
 	// add position
-	@PostMapping("/position/add")
-	public PositionDto addPositions(@Valid @RequestBody PositionDto positionDto) {
-        Positions positions = positionConverter.dtoToEntity(positionDto);
-        positions = positionService.addPosition(positions);
-		return positionConverter.entityToDto(positions);
+	/**
+	 * @param positionDto
+	 * @return
+	 */
+	@PostMapping("/add")
+	public Positions addPositions(@Valid @RequestBody PositionDto positionDto) {
+		Positions positions = positionService.convertToPositionEntity(positionDto);
+
+		return positionService.savePosition(positions);
 	}
 
 	// update position
 
-	@PutMapping("/position/update/")
-	public Positions updatePositions(@RequestBody Positions positions) {
-		return this.positionService.updatePosition(positions);
+	/**
+	 * @param id
+	 * @param positionDto
+	 * @return
+	 */
+	@PutMapping("/update/{id}")
+	public Positions updatePositionsById(@PathVariable int id, @RequestBody PositionDto positionDto) {
+		Positions positions = positionService.convertToPositionEntity(positionDto);
+		Positions positions1 = positionService.getPositionsById(id);
+		if (positions1 == null) {
+			throw new PositionNotFoundException("Id-" + id);
+		}
+		return this.positionService.updatePosition(positions1, positions);
 	}
 
 	// delete position
-	@DeleteMapping("/position/delete/{positionid}")
-	public String deleteposition(@PathVariable int positionid) {
-		Positions positions = this.positionService.getPosition(positionid);
+	@DeleteMapping("/delete/{id}")
+	public String deletePositionsById(@PathVariable int id) {
+		Positions positions = this.positionService.getPositionsById(id);
 		if (positions == null) {
-			throw new PositionNotFoundException("id--" + positionid);
+			throw new PositionNotFoundException("id--" + id);
 		} else {
-			return positionService.deleteposition(positionid);
+			return positionService.deleteposition(id);
 
 		}
 	}

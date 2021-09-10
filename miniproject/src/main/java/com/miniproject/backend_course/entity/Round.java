@@ -1,63 +1,56 @@
 package com.miniproject.backend_course.entity;
 
-
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
 @Entity
 public class Round {
-	
-	    @Id
-	    @GeneratedValue
-		private int id;
-		private String name;
-		private int seq;
-		
-		
-		
-		public Round(int id, String name, int seq) {
-			super();
-			this.id = id;
-			this.name = name;
-			this.seq = seq;
-		}
 
-		public Round() {
-			super();
-		}
+	@Id
+	@GeneratedValue
+	private int id;
+	private String name;
+	private int sequence;
 
-		public int getId() {
-			return id;
-		}
+	public Round(int id, String name, int sequence) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.sequence = sequence;
+	}
 
-		public void setId(int id) {
-			this.id = id;
-		}
+	public Round() {
+		super();
+	}
 
-		public String getName() {
-			return name;
-		}
+	public int getId() {
+		return id;
+	}
 
-		public void setName(String name) {
-			this.name = name;
-		}
+	public void setId(int id) {
+		this.id = id;
+	}
 
-		public int getSeq() {
-			return seq;
-		}
+	public String getName() {
+		return name;
+	}
 
-		public void setSeq(int seq) {
-			this.seq = seq;
-		}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-		@Override
-		public String toString() {
-			return "Round [id=" + id + ", name=" + name + ", seq=" + seq + "]";
-		}
-		
-		
+	public int getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+
+	@Override
+	public String toString() {
+		return "Round [id=" + id + ", name=" + name + ", sequence=" + sequence + "]";
+	}
 
 }

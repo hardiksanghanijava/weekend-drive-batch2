@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class RoundNotFoundException extends RuntimeException {
 	public RoundNotFoundException(String message) {
 		super(message);
-		
+
 	}
 }

@@ -1,8 +1,5 @@
 package com.miniproject.backend_course.controller;
 
-
-
-
 import com.miniproject.backend_course.dto.InterviewDTO;
 
 import com.miniproject.backend_course.entity.Interview;
@@ -21,96 +18,104 @@ import javax.validation.Valid;
 @RequestMapping("/api/interview")
 public class InterviewController {
 
-    @Autowired
-    private InterviewService interviewService;
+	@Autowired
+	private InterviewService interviewService;
 
-    // adding interview
-    
-    @PostMapping("/add")
-    public Interview addInterview(@Valid @RequestBody InterviewDTO interviewDto) {
-    	Interview interview=interviewService.convertToInterviewEntity(interviewDto);
-        return interviewService.saveInterview(interview);
-    }
+	// adding interview
 
+	/**
+	 * @param interviewDto
+	 * @return
+	 */
+	@PostMapping("/add")
+	public Interview addInterview(@Valid @RequestBody InterviewDTO interviewDto) {
+		Interview interview = interviewService.convertToInterviewEntity(interviewDto);
+		return interviewService.saveInterview(interview);
+	}
 
-    //list of interviews
-    
-    @GetMapping("/schedule")
-    public List<Interview> findAllInterviews() {
-        return interviewService.getInterviews();
-    }
-    
-    //interview by id
-    
-    @GetMapping("/schedule/{id}")
-    public Interview findInterviews(@PathVariable int id) {
-    	Interview interview = interviewService.getInterviewById(id);
-        
-        if(interview==null) {
-			throw new ScheduledInterviewNotFoundException("invalid interview id "+id);
+	// list of interviews
+
+	@GetMapping("/schedule")
+	public List<Interview> findAllInterviews() {
+		return interviewService.getInterviews();
+	}
+
+	// interview by id
+
+	@GetMapping("/schedule/{id}")
+	public Interview findInterviewsById(@PathVariable int id) {
+		Interview interview = interviewService.getInterviewById(id);
+
+		if (interview == null) {
+			throw new ScheduledInterviewNotFoundException("invalid interview id " + id);
 		}
-        return interviewService.getInterviewById(id);
-    }
+		return interviewService.getInterviewById(id);
+	}
 
-    //status of interview
-    
-    @GetMapping("/{id}/status")
-    public String findInterviewStatusById(@PathVariable int id) {
-        Interview interview = interviewService.getInterviewById(id);
-        
-        if(interview==null) {
-			throw new ScheduledInterviewNotFoundException("invalid interview id "+id);
+	// status of interview
+
+	@GetMapping("/{id}/status")
+	public String findInterviewStatusById(@PathVariable int id) {
+		Interview interview = interviewService.getInterviewById(id);
+
+		if (interview == null) {
+			throw new ScheduledInterviewNotFoundException("invalid interview id " + id);
 		}
-        
-        return interview.getStatus();
-		
-        
-    }
-    
-    //rescheduling interview
-    
-    @PutMapping("/reschedule/{id}")
-    public Interview RescheduledInterviewById(@PathVariable int id,@RequestBody InterviewDTO interviewDto) {
-    	Interview interview1 = interviewService.getInterviewById(id);
-    	
-    	Interview interview=interviewService.convertToInterviewEntity(interviewDto);
-        String s="Rescheduled";
-    	Interview inter = null;
-		
-    	if(interview1.getStatus().equals(s))
-    		inter=interviewService.updateInterview(interview1,interview);
-    	else {
-    		throw new ScheduledInterviewNotFoundException("not a rescheduled interview id "+id);
-    	}
-    	return inter;
-    	
-        
-    }
 
-    //updating interview
-    
-	@PutMapping("/update/{id}")
-    public Interview updateInterviewById(@PathVariable int id,@RequestBody InterviewDTO interviewDto) {
+		return interview.getStatus();
+
+	}
+
+	// rescheduling interview
+
+	/**
+	 * @param id
+	 * @param interviewDto
+	 * @return
+	 */
+	@PutMapping("/reschedule/{id}")
+	public Interview RescheduledInterviewById(@PathVariable int id, @RequestBody InterviewDTO interviewDto) {
 		Interview interview1 = interviewService.getInterviewById(id);
-		Interview interview=interviewService.convertToInterviewEntity(interviewDto);
-		if(interview1==null) {
-			throw new ScheduledInterviewNotFoundException("id-"+id);
-		}
-        return interviewService.updateInterview(interview1,interview);
-    }
 
-    
-	//deleting an interview
-	
-	@DeleteMapping("/delete/{id}")
-    public String deleteIntervieweeById(@PathVariable int id) {
-    	Interview interview = interviewService.getInterviewById(id);
-        if(interview==null) {
-			throw new ScheduledInterviewNotFoundException("id-"+id);
+		Interview interview = interviewService.convertToInterviewEntity(interviewDto);
+		String s = "Rescheduled";
+		Interview inter = null;
+
+		if (interview1.getStatus().equals(s))
+			inter = interviewService.updateInterview(interview1, interview);
+		else {
+			throw new ScheduledInterviewNotFoundException("not a rescheduled interview id " + id);
 		}
-        else
-        	return interviewService.deleteInterview(id);
-		
-        
-    }
+		return inter;
+
+	}
+
+	// updating interview
+
+	/**
+	 * @param id
+	 * @param interviewDto
+	 * @return
+	 */
+	@PutMapping("/update/{id}")
+	public Interview updateInterviewById(@PathVariable int id, @RequestBody InterviewDTO interviewDto) {
+		Interview interview1 = interviewService.getInterviewById(id);
+		Interview interview = interviewService.convertToInterviewEntity(interviewDto);
+		if (interview1 == null) {
+			throw new ScheduledInterviewNotFoundException("id-" + id);
+		}
+		return interviewService.updateInterview(interview1, interview);
+	}
+
+	// deleting an interview
+
+	@DeleteMapping("/delete/{id}")
+	public String deleteIntervieweeById(@PathVariable int id) {
+		Interview interview = interviewService.getInterviewById(id);
+		if (interview == null) {
+			throw new ScheduledInterviewNotFoundException("id-" + id);
+		} else
+			return interviewService.deleteInterview(id);
+
+	}
 }
