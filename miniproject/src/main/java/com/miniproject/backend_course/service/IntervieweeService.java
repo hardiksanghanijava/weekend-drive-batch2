@@ -45,7 +45,7 @@ public class IntervieweeService {
 	 * repository.save(existingInterviewee); }
 	 */
 
-	public Interviewee updateInterview(Interviewee interviewee1, Interviewee interviewee) {
+	public Interviewee updateInterviewee(Interviewee interviewee1, Interviewee interviewee) {
 
 		Interviewee existingInterviewee = intervieweeRepository.findById(interviewee1.getId()).orElse(null);
 		existingInterviewee.setName(interviewee.getName());

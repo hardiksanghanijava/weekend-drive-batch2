@@ -14,6 +14,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+/**
+ * @author Tarun
+ *
+ */
 @RestController
 @RequestMapping("/api/interview")
 public class InterviewController {
@@ -21,9 +25,9 @@ public class InterviewController {
 	@Autowired
 	private InterviewService interviewService;
 
-	// adding interview
 
 	/**
+	 * to add interview 
 	 * @param interviewDto
 	 * @return
 	 */
@@ -33,15 +37,23 @@ public class InterviewController {
 		return interviewService.saveInterview(interview);
 	}
 
-	// list of interviews
 
+	/**
+	 * to display all the interview schedule
+	 * @return
+	 */
 	@GetMapping("/schedule")
 	public List<Interview> findAllInterviews() {
 		return interviewService.getInterviews();
 	}
 
-	// interview by id
 
+     
+	/**
+	 * to display specific interview detail
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/schedule/{id}")
 	public Interview findInterviewsById(@PathVariable int id) {
 		Interview interview = interviewService.getInterviewById(id);
@@ -52,8 +64,13 @@ public class InterviewController {
 		return interviewService.getInterviewById(id);
 	}
 
-	// status of interview
-
+	
+ 
+	/**
+	 * to check the interview status
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}/status")
 	public String findInterviewStatusById(@PathVariable int id) {
 		Interview interview = interviewService.getInterviewById(id);
@@ -66,9 +83,9 @@ public class InterviewController {
 
 	}
 
-	// rescheduling interview
 
 	/**
+	 * for rescheduling  interview
 	 * @param id
 	 * @param interviewDto
 	 * @return
@@ -90,9 +107,9 @@ public class InterviewController {
 
 	}
 
-	// updating interview
-
+	
 	/**
+	 * for updating interview detail
 	 * @param id
 	 * @param interviewDto
 	 * @return
@@ -107,8 +124,13 @@ public class InterviewController {
 		return interviewService.updateInterview(interview1, interview);
 	}
 
-	// deleting an interview
 
+
+	/**
+	 * for delete interview
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteIntervieweeById(@PathVariable int id) {
 		Interview interview = interviewService.getInterviewById(id);

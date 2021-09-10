@@ -22,6 +22,7 @@ public class InterviewerController {
 	private InterviewerService interviewerService;
 
 	/**
+	 * to add the interviewer details
 	 * @param interviewerDto
 	 * @return
 	 */
@@ -31,11 +32,20 @@ public class InterviewerController {
 		return interviewerService.saveInterviewer(interviewer);
 	}
 
+	/**
+	 * to display all the interviewer
+	 * @return
+	 */
 	@GetMapping("/list")
 	public List<Interviewer> findAllInterviewers() {
 		return interviewerService.getInterviewers();
 	}
 
+	/**
+	 * to find specific interviewer
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/view/{id}")
 	public Interviewer findInterviewerById(@PathVariable int id) {
 		Interviewer interviewer = interviewerService.getInterviewerById(id);
@@ -46,6 +56,12 @@ public class InterviewerController {
 		return interviewer;
 	}
 
+	/**
+	 * to update interviewer details
+	 * @param id
+	 * @param interviewerDto
+	 * @return
+	 */
 	@PutMapping("/update/{id}")
 	public Interviewer updateInterviewerById(@PathVariable int id, @RequestBody InterviewerDto interviewerDto) {
 		Interviewer interviewer = interviewerService.convertToInterviewerEntity(interviewerDto);
@@ -56,6 +72,11 @@ public class InterviewerController {
 		return interviewerService.updateInterviewer(interviewer1, interviewer);
 	}
 
+	/**
+	 * for delete interviewer
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteInterviewerById(@PathVariable int id) {
 		Interviewer interviewer = interviewerService.getInterviewerById(id);

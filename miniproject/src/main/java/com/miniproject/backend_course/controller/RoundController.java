@@ -26,11 +26,20 @@ public class RoundController {
 	@Autowired
 	RoundService roundservice;
 
+	/**
+	 * to display all the round
+	 * @return
+	 */
 	@GetMapping("/list")
 	public List<Round> getAllRound() {
 		return roundservice.getroRounds();
 	}
-
+  
+	/**
+	 * to display specific round detail
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/view/{id}")
 	public Round findRoundById(@PathVariable("id") int id) {
 
@@ -46,6 +55,7 @@ public class RoundController {
 	}
 
 	/**
+	 * to add the round details
 	 * @param roundDto
 	 * @return
 	 */
@@ -57,6 +67,7 @@ public class RoundController {
 	}
 
 	/**
+	 * to updae the round details
 	 * @param id
 	 * @param roundDto
 	 * @return
@@ -71,6 +82,11 @@ public class RoundController {
 		return this.roundservice.updateRound(round1, round);
 	}
 
+	/**
+	 * to delete round detail
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteRoundById(@PathVariable("id") int id) {
 		Round round = this.roundservice.getroRoundById(id);

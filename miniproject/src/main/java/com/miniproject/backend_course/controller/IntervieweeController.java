@@ -17,18 +17,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/interviewee")
 public class IntervieweeController {
 
-	// 1. manage proper prefix
-	// 2. Populate form data into DTO -> copy properties from DTO to entity -> save
-	// it.
-	// 3. Specify Id in url while updating entity
-	// 4. give proper names to object
-
 	@Autowired
 	private IntervieweeService intervieweeService;
 
-	// adding interviewee
-
 	/**
+	 * add interviewee
+	 * 
 	 * @param intervieweeDto
 	 * @return
 	 */
@@ -38,15 +32,22 @@ public class IntervieweeController {
 		return intervieweeService.saveInterviewee(interviewee);
 	}
 
-	// list of interviewees
-
+	/**
+	 * to find all the interviewee
+	 * 
+	 * @return
+	 */
 	@GetMapping("/list")
 	public List<Interviewee> findAllInterviewees() {
 		return intervieweeService.getInterviewees();
 	}
 
-	// find interviewee by id
-
+	/**
+	 * to find specific interviewee
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/view/{id}")
 	public Interviewee findIntervieweeById(@PathVariable int id) {
 		Interviewee interviewee = intervieweeService.getIntervieweeById(id);
@@ -57,9 +58,9 @@ public class IntervieweeController {
 		return interviewee;
 	}
 
-	// updating interviewee
-
 	/**
+	 * for updating interviewee details
+	 * 
 	 * @param id
 	 * @param intervieweeDto
 	 * @return
@@ -71,12 +72,16 @@ public class IntervieweeController {
 		if (interviewee1 == null) {
 			throw new IntervieweeNotFoundException("id-" + id);
 		}
-		return intervieweeService.updateInterview(interviewee1, interviewee);
+		return intervieweeService.updateInterviewee(interviewee1, interviewee);
 
 	}
 
-	// deleting interviewee
-
+	/**
+	 * to delete the interviewee details
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteIntervieweeById(@PathVariable int id) {
 		Interviewee interviewee = intervieweeService.getIntervieweeById(id);

@@ -25,14 +25,23 @@ public class PositionController {
 	@Autowired
 	private PositionService positionService;
 
-	// get list of all position
+	
+	/**
+	 * to display all the available position
+	 * @return
+	 */
 	@GetMapping("/list")
 	public List<Positions> findAllPositions() {
 		return this.positionService.getPositions();
 
 	}
 
-	// get list of only one position
+	
+	/**
+	 * to find specific position
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/view/{id}")
 	public Positions findPositionsById(@PathVariable int id) {
 
@@ -44,8 +53,9 @@ public class PositionController {
 		return position;
 	}
 
-	// add position
+	
 	/**
+	 * to add position
 	 * @param positionDto
 	 * @return
 	 */
@@ -56,9 +66,9 @@ public class PositionController {
 		return positionService.savePosition(positions);
 	}
 
-	// update position
-
+	
 	/**
+	 * for update or modify position
 	 * @param id
 	 * @param positionDto
 	 * @return
@@ -73,7 +83,12 @@ public class PositionController {
 		return this.positionService.updatePosition(positions1, positions);
 	}
 
-	// delete position
+	
+	/**
+	 * to delete position
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/delete/{id}")
 	public String deletePositionsById(@PathVariable int id) {
 		Positions positions = this.positionService.getPositionsById(id);
