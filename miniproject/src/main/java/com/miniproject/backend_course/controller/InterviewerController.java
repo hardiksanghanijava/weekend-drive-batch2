@@ -67,7 +67,7 @@ public class InterviewerController {
 		Interviewer interviewer = interviewerService.convertToInterviewerEntity(interviewerDto);
 		Interviewer interviewer1 = interviewerService.getInterviewerById(id);
 		if (interviewer1 == null) {
-			throw new IntervieweeNotFoundException("id--" + id);
+			throw new InterviewerNotFoundException("id--" + id);
 		}
 		return interviewerService.updateInterviewer(interviewer1, interviewer);
 	}
