@@ -4,6 +4,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
+import com.miniproject.backend_course.entity.Interviewee;
+
+import lombok.Data;
+
+@Component
 @DTO
 public class IntervieweeDTO {
 
@@ -54,6 +62,18 @@ public class IntervieweeDTO {
 
 	public void setQualification(String qualification) {
 		this.qualification = qualification;
+	}
+
+	public Interviewee convertToIntervieweeEntity(IntervieweeDTO intervieweeDto) {
+		ModelMapper modelMapper = new ModelMapper();
+		Interviewee interviewee = modelMapper.map(intervieweeDto, Interviewee.class);
+		return interviewee;
+	}
+	
+	public IntervieweeDTO convertToIntervieweeDto(Interviewee interviewee) {
+		ModelMapper modelMapper = new ModelMapper();
+		IntervieweeDTO intervieweeDto1 = modelMapper.map(interviewee, IntervieweeDTO.class);
+		return intervieweeDto1;
 	}
 
 }

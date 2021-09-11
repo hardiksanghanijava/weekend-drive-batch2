@@ -3,12 +3,14 @@ package com.miniproject.backend_course.service;
 import com.miniproject.backend_course.dto.IntervieweeDTO;
 
 import com.miniproject.backend_course.entity.Interviewee;
+import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
 import com.miniproject.backend_course.repository.IntervieweeRepository;
 
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.RollbackException;
@@ -18,48 +20,74 @@ public class IntervieweeService {
 	@Autowired
 	private IntervieweeRepository intervieweeRepository;
 
-	public Interviewee saveInterviewee(Interviewee product) throws RollbackException {
-		return intervieweeRepository.save(product);
+	@Autowired
+	private IntervieweeDTO intervieweeDto;
+	
+	public IntervieweeDTO saveInterviewee(IntervieweeDTO product) throws Exception {
+		Interviewee interviewee=intervieweeDto.convertToIntervieweeEntity(product);
+		Interviewee interviewee1=intervieweeRepository.save(interviewee);
+		System.out.println(interviewee1);
+		System.out.println(intervieweeDto.convertToIntervieweeDto(interviewee1));
+		return intervieweeDto.convertToIntervieweeDto(interviewee1);
+	}
+	
+
+	public List<IntervieweeDTO> getInterviewees() {
+		List<Interviewee> interviewees=intervieweeRepository.findAll();
+		List<IntervieweeDTO> intervieweeDtos=new ArrayList<>();
+		//List<IntervieweeDTO> intervieweeDtos=modelMapper.map(interviewees,new TypeToken<List<IntervieweeDTO>>() {}.getType());
+		for (Interviewee interviewee:interviewees) {
+			intervieweeDtos.add(intervieweeDto.convertToIntervieweeDto(interviewee));
+		}
+		return intervieweeDtos;
 	}
 
-	public List<Interviewee> getInterviewees() {
-		return intervieweeRepository.findAll();
-	}
+	/*public Interviewee getIntervieweeById(int id) {
+		Interviewee interviewee=intervieweeRepository.findById(id).orElse(null);
+		if(interviewee==null) {
+			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
+		}
+		//return intervieweeDto.convertToIntervieweeDto(interviewee);
+		return interviewee;
+	}*/
 
-	public Interviewee getIntervieweeById(int id) {
-		return intervieweeRepository.findById(id).orElse(null);
+	public IntervieweeDTO getIntervieweeById(int id) {
+		Interviewee interviewee=intervieweeRepository.findById(id).orElse(null);
+		if(interviewee==null) {
+			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
+		}
+		IntervieweeDTO intervieweeDto1 = intervieweeDto.convertToIntervieweeDto(interviewee);
+		return intervieweeDto1;
 	}
 
 	public String deleteInterviewee(int id) {
+		Interviewee interviewee=intervieweeRepository.findById(id).orElse(null);
+		if(interviewee==null) {
+			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
+		}
 		intervieweeRepository.deleteById(id);
 		return "interviewee removed !! " + id;
 	}
 
-	/*
-	 * public Interviewee updateInterviewee(Interviewee product) { Interviewee
-	 * existingInterviewee = repository.findById(product.getId()).orElse(null);
-	 * existingInterviewee.setName(product.getName());
-	 * existingInterviewee.setSkills(product.getSkills());
-	 * existingInterviewee.setExperience(product.getExperience());
-	 * existingInterviewee.setQualification(product.getQualification()); return
-	 * repository.save(existingInterviewee); }
-	 */
+	
 
-	public Interviewee updateInterviewee(Interviewee interviewee1, Interviewee interviewee) {
+	public IntervieweeDTO updateInterviewee(int id, IntervieweeDTO intervieweeDto) {
 
-		Interviewee existingInterviewee = intervieweeRepository.findById(interviewee1.getId()).orElse(null);
-		existingInterviewee.setName(interviewee.getName());
-		existingInterviewee.setSkills(interviewee.getSkills());
-		existingInterviewee.setExperience(interviewee.getExperience());
-		existingInterviewee.setQualification(interviewee.getQualification());
-		return intervieweeRepository.save(existingInterviewee);
+		
+		Interviewee existingInterviewee = intervieweeRepository.findById(id).orElse(null);
+		if(existingInterviewee==null) {
+			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
+		}
+		BeanUtils.copyProperties(intervieweeDto,existingInterviewee);
+		//existingInterviewee.setName(intervieweeDto.getName());
+		//existingInterviewee.setSkills(intervieweeDto.getSkills());
+		//existingInterviewee.setExperience(intervieweeDto.getExperience());
+		//existingInterviewee.setQualification(intervieweeDto.getQualification());
+		
+		return intervieweeDto.convertToIntervieweeDto(existingInterviewee);
 
 	}
 
-	public Interviewee convertToIntervieweeEntity(IntervieweeDTO intervieweeDto) {
-		ModelMapper modelMapper = new ModelMapper();
-		Interviewee interviewee = modelMapper.map(intervieweeDto, Interviewee.class);
-		return interviewee;
-	}
+	
 
 }

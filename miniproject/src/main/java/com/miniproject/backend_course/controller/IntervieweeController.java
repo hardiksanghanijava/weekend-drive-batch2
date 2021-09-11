@@ -1,10 +1,7 @@
 package com.miniproject.backend_course.controller;
 
 import com.miniproject.backend_course.dto.IntervieweeDTO;
-
 import com.miniproject.backend_course.entity.Interviewee;
-import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
-
 import com.miniproject.backend_course.service.IntervieweeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +16,18 @@ public class IntervieweeController {
 
 	@Autowired
 	private IntervieweeService intervieweeService;
+	
 
 	/**
 	 * add interviewee
 	 * 
 	 * @param intervieweeDto
 	 * @return
+	 * @throws Exception 
 	 */
 	@PostMapping("/add")
-	public Interviewee addInterviewee(@Valid @RequestBody IntervieweeDTO intervieweeDto) {
-		Interviewee interviewee = intervieweeService.convertToIntervieweeEntity(intervieweeDto);
-		return intervieweeService.saveInterviewee(interviewee);
+	public IntervieweeDTO addInterviewee(@Valid @RequestBody IntervieweeDTO intervieweeDto) throws Exception {
+		return intervieweeService.saveInterviewee(intervieweeDto);
 	}
 
 	/**
@@ -38,7 +36,7 @@ public class IntervieweeController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public List<Interviewee> findAllInterviewees() {
+	public List<IntervieweeDTO> findAllInterviewees() {
 		return intervieweeService.getInterviewees();
 	}
 
@@ -49,13 +47,9 @@ public class IntervieweeController {
 	 * @return
 	 */
 	@GetMapping("/view/{id}")
-	public Interviewee findIntervieweeById(@PathVariable int id) {
-		Interviewee interviewee = intervieweeService.getIntervieweeById(id);
-		if (interviewee == null) {
-			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
-		}
+	public IntervieweeDTO findIntervieweeById(@PathVariable int id) {
 
-		return interviewee;
+		return intervieweeService.getIntervieweeById(id);
 	}
 
 	/**
@@ -66,13 +60,9 @@ public class IntervieweeController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public Interviewee updateIntervieweeById(@PathVariable int id, @RequestBody IntervieweeDTO intervieweeDto) {
-		Interviewee interviewee = intervieweeService.convertToIntervieweeEntity(intervieweeDto);
-		Interviewee interviewee1 = intervieweeService.getIntervieweeById(id);
-		if (interviewee1 == null) {
-			throw new IntervieweeNotFoundException("id-" + id);
-		}
-		return intervieweeService.updateInterviewee(interviewee1, interviewee);
+	public IntervieweeDTO updateIntervieweeById(@PathVariable int id, @RequestBody IntervieweeDTO intervieweeDto) {
+		
+		return intervieweeService.updateInterviewee(id,intervieweeDto);
 
 	}
 
@@ -84,10 +74,7 @@ public class IntervieweeController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteIntervieweeById(@PathVariable int id) {
-		Interviewee interviewee = intervieweeService.getIntervieweeById(id);
-		if (interviewee == null) {
-			throw new IntervieweeNotFoundException("id-" + id);
-		} else
+		
 			return intervieweeService.deleteInterviewee(id);
 
 	}
