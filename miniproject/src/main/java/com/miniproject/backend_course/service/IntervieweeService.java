@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.RollbackException;
+
 
 @Service
 public class IntervieweeService {
@@ -42,14 +42,7 @@ public class IntervieweeService {
 		return intervieweeDtos;
 	}
 
-	/*public Interviewee getIntervieweeById(int id) {
-		Interviewee interviewee=intervieweeRepository.findById(id).orElse(null);
-		if(interviewee==null) {
-			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
-		}
-		//return intervieweeDto.convertToIntervieweeDto(interviewee);
-		return interviewee;
-	}*/
+	
 
 	public IntervieweeDTO getIntervieweeById(int id) {
 		Interviewee interviewee=intervieweeRepository.findById(id).orElse(null);
@@ -79,10 +72,7 @@ public class IntervieweeService {
 			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
 		}
 		BeanUtils.copyProperties(intervieweeDto,existingInterviewee);
-		//existingInterviewee.setName(intervieweeDto.getName());
-		//existingInterviewee.setSkills(intervieweeDto.getSkills());
-		//existingInterviewee.setExperience(intervieweeDto.getExperience());
-		//existingInterviewee.setQualification(intervieweeDto.getQualification());
+		
 		
 		return intervieweeDto.convertToIntervieweeDto(existingInterviewee);
 

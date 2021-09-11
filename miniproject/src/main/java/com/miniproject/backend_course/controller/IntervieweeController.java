@@ -1,7 +1,7 @@
 package com.miniproject.backend_course.controller;
 
 import com.miniproject.backend_course.dto.IntervieweeDTO;
-import com.miniproject.backend_course.entity.Interviewee;
+
 import com.miniproject.backend_course.service.IntervieweeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

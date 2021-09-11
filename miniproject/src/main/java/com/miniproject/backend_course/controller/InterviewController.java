@@ -2,9 +2,9 @@ package com.miniproject.backend_course.controller;
 
 import com.miniproject.backend_course.dto.InterviewDTO;
 
-import com.miniproject.backend_course.entity.Interview;
 
-import com.miniproject.backend_course.exception.ScheduledInterviewNotFoundException;
+
+
 import com.miniproject.backend_course.service.InterviewService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-/**
- * @author Tarun
- *
- */
+
 @RestController
 @RequestMapping("/api/interview")
 public class InterviewController {
@@ -32,9 +29,9 @@ public class InterviewController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public Interview addInterview(@Valid @RequestBody InterviewDTO interviewDto) {
-		Interview interview = interviewService.convertToInterviewEntity(interviewDto);
-		return interviewService.saveInterview(interview);
+	public InterviewDTO addInterview(@Valid @RequestBody InterviewDTO interviewDto) {
+		
+		return interviewService.saveInterview(interviewDto);
 	}
 
 
@@ -43,7 +40,7 @@ public class InterviewController {
 	 * @return
 	 */
 	@GetMapping("/schedule")
-	public List<Interview> findAllInterviews() {
+	public List<InterviewDTO> findAllInterviews() {
 		return interviewService.getInterviews();
 	}
 
@@ -55,12 +52,8 @@ public class InterviewController {
 	 * @return
 	 */
 	@GetMapping("/schedule/{id}")
-	public Interview findInterviewsById(@PathVariable int id) {
-		Interview interview = interviewService.getInterviewById(id);
-
-		if (interview == null) {
-			throw new ScheduledInterviewNotFoundException("invalid interview id " + id);
-		}
+	public InterviewDTO findInterviewsById(@PathVariable int id) {
+		
 		return interviewService.getInterviewById(id);
 	}
 
@@ -73,13 +66,8 @@ public class InterviewController {
 	 */
 	@GetMapping("/{id}/status")
 	public String findInterviewStatusById(@PathVariable int id) {
-		Interview interview = interviewService.getInterviewById(id);
-
-		if (interview == null) {
-			throw new ScheduledInterviewNotFoundException("invalid interview id " + id);
-		}
-
-		return interview.getStatus();
+		
+		return interviewService.interviewStatusById(id);
 
 	}
 
@@ -91,19 +79,10 @@ public class InterviewController {
 	 * @return
 	 */
 	@PutMapping("/reschedule/{id}")
-	public Interview RescheduledInterviewById(@PathVariable int id, @RequestBody InterviewDTO interviewDto) {
-		Interview interview1 = interviewService.getInterviewById(id);
-
-		Interview interview = interviewService.convertToInterviewEntity(interviewDto);
-		String s = "Rescheduled";
-		Interview inter = null;
-
-		if (interview1.getStatus().equals(s))
-			inter = interviewService.updateInterview(interview1, interview);
-		else {
-			throw new ScheduledInterviewNotFoundException("not a rescheduled interview id " + id);
-		}
-		return inter;
+	public InterviewDTO rescheduledInterviewById(@PathVariable int id, @RequestBody InterviewDTO interviewDto) {
+		
+		return interviewService.rescheduledInterview(id,interviewDto);
+		
 
 	}
 
@@ -115,13 +94,9 @@ public class InterviewController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public Interview updateInterviewById(@PathVariable int id, @RequestBody InterviewDTO interviewDto) {
-		Interview interview1 = interviewService.getInterviewById(id);
-		Interview interview = interviewService.convertToInterviewEntity(interviewDto);
-		if (interview1 == null) {
-			throw new ScheduledInterviewNotFoundException("id-" + id);
-		}
-		return interviewService.updateInterview(interview1, interview);
+	public InterviewDTO updateInterviewById(@PathVariable int id, @RequestBody InterviewDTO interviewDto) {
+		
+		return interviewService.updateInterview(id,interviewDto);
 	}
 
 
@@ -133,10 +108,7 @@ public class InterviewController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteIntervieweeById(@PathVariable int id) {
-		Interview interview = interviewService.getInterviewById(id);
-		if (interview == null) {
-			throw new ScheduledInterviewNotFoundException("id-" + id);
-		} else
+		
 			return interviewService.deleteInterview(id);
 
 	}

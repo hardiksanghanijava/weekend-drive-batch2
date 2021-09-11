@@ -7,11 +7,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
+import com.miniproject.backend_course.entity.Interview;
 import com.miniproject.backend_course.entity.Interviewee;
 import com.miniproject.backend_course.entity.Interviewer;
 import com.miniproject.backend_course.entity.Positions;
 import com.miniproject.backend_course.entity.Round;
 
+@Component
 @DTO
 public class InterviewDTO {
 
@@ -103,5 +108,18 @@ public class InterviewDTO {
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
+	public Interview convertToInterviewEntity(InterviewDTO interviewDto) {
+		ModelMapper modelMapper = new ModelMapper();
+		Interview interview = modelMapper.map(interviewDto, Interview.class);
+		return interview;
+	}
+	
+	public InterviewDTO convertToInterviewDto(Interview interview) {
+		ModelMapper modelMapper = new ModelMapper();
+		InterviewDTO interviewDto1 = modelMapper.map(interview, InterviewDTO.class);
+		return interviewDto1;
+	}
+
 
 }
