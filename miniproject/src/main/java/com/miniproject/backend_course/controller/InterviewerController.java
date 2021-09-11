@@ -30,9 +30,8 @@ public class InterviewerController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public InterviewerDto addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto1) {
-		Interviewer interviewer = interviewerDto.convertToInterviewerEntity(interviewerDto1);
-		return interviewerService.saveInterviewer(interviewer);
+	public InterviewerDto addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto) {
+		return interviewerService.saveInterviewer(interviewerDto);
 		
 	}
 
@@ -64,10 +63,7 @@ public class InterviewerController {
 	 */
 	@PutMapping("/update/{id}")
 	public InterviewerDto updateInterviewerById(@PathVariable int id, @RequestBody InterviewerDto interviewerDto1) {
-		Interviewer interviewer = interviewerDto.convertToInterviewerEntity(interviewerDto1);
-		InterviewerDto interviewer1 = interviewerService.getInterviewerById(id);
-		Interviewer interviewer2 = interviewerDto.convertToInterviewerEntity(interviewer1);
-		return interviewerService.updateInterviewer(interviewer2, interviewer);
+		return interviewerService.updateInterviewer(interviewerDto1);
 	}
 
 	/**
@@ -77,7 +73,6 @@ public class InterviewerController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteInterviewerById(@PathVariable int id) {
-		InterviewerDto interviewerDto = interviewerService.getInterviewerById(id);
 		return interviewerService.deleteInterviewer(id);
 
 	}

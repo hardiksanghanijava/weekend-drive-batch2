@@ -19,8 +19,9 @@ public class InterviewerService {
 	
 	private InterviewerDto interviewerDto;
 
-	public InterviewerDto saveInterviewer(Interviewer product) {
-		return interviewerDto.convertToInterviewerDto(interviewerRepository.save(product));
+	public InterviewerDto saveInterviewer(InterviewerDto product) {
+		Interviewer interviewer = interviewerDto.convertToInterviewerEntity(product);
+		return interviewerDto.convertToInterviewerDto(interviewerRepository.save(interviewer));
 	}
 
 	public List<Interviewer> getInterviewers() {
@@ -45,14 +46,15 @@ public class InterviewerService {
 		return "Interviewer removed !! " + id;
 	}
 
-	public InterviewerDto updateInterviewer(Interviewer interviewer1, Interviewer interviewer) {
-		Interviewer existingInterviewer = interviewerRepository.findById(interviewer1.getId()).orElse(null);
-		if (existingInterviewer == null) {
-			throw new InterviewerNotFoundException("id--" + existingInterviewer.getId());
+	public InterviewerDto updateInterviewer(InterviewerDto interviewerDto1) {
+		Interviewer interviewer = interviewerDto.convertToInterviewerEntity(interviewerDto1);
+		Interviewer interviewer1 = interviewerRepository.findById(interviewer.getId()).orElse(null);
+		if (interviewer1 == null) {
+			throw new InterviewerNotFoundException("id--" + interviewer1.getId());
 		}
-		existingInterviewer.setName(interviewer.getName());
+		interviewer1.setName(interviewer.getName());
 
-		return interviewerDto.convertToInterviewerDto(interviewerRepository.save(existingInterviewer));
+		return interviewerDto.convertToInterviewerDto(interviewerRepository.save(interviewer1));
 	}
 
 	
