@@ -35,7 +35,6 @@ public class InterviewService {
 	public List<InterviewDTO> getInterviews() {
 		List<Interview> interviews=interviewRepository.findAll();
 		List<InterviewDTO> interviewDtos=new ArrayList<>();
-		//List<IntervieweeDTO> intervieweeDtos=modelMapper.map(interviewees,new TypeToken<List<IntervieweeDTO>>() {}.getType());
 		for (Interview interview:interviews) {
 			interviewDtos.add(interviewDto.convertToInterviewDto(interview));
 		}
@@ -78,23 +77,30 @@ public class InterviewService {
 			throw new ScheduledInterviewNotFoundException("invalid interviewee id " + id);
 		}
 		BeanUtils.copyProperties(interviewDto1,existingInterview);
-		
+		interviewRepository.save(existingInterview);
 		
 		return interviewDto.convertToInterviewDto(existingInterview);
 
 		
 	}
 
-	public InterviewDTO rescheduledInterview(int id, InterviewDTO interviewDto2) {
+	public InterviewDTO rescheduledInterview(int id, InterviewDTO interviewDto1) {
 		Interview interview = interviewRepository.findById(id).orElse(null);
 		if(interview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interviewee id " + id);
 		}
-		InterviewDTO interviewDto1 = interviewDto.convertToInterviewDto(interview);
-		if(interviewDto1.getStatus()=="Rescheduled") {
-			BeanUtils.copyProperties(interviewDto2,interviewDto1);
+		String s="Rescheduled";
+		InterviewDTO interviewDto2 = interviewDto.convertToInterviewDto(interview);
+		if(interviewDto2.getStatus().equals(s)) {
+			
+			
+			BeanUtils.copyProperties(interviewDto1,interview);
+			
+			interviewRepository.save(interview);
 		}
-		return interviewDto1;
+		
+		
+		return interviewDto.convertToInterviewDto(interview);
 	}
 
 	

@@ -26,8 +26,6 @@ public class IntervieweeService {
 	public IntervieweeDTO saveInterviewee(IntervieweeDTO product) throws Exception {
 		Interviewee interviewee=intervieweeDto.convertToIntervieweeEntity(product);
 		Interviewee interviewee1=intervieweeRepository.save(interviewee);
-		System.out.println(interviewee1);
-		System.out.println(intervieweeDto.convertToIntervieweeDto(interviewee1));
 		return intervieweeDto.convertToIntervieweeDto(interviewee1);
 	}
 	
@@ -35,7 +33,6 @@ public class IntervieweeService {
 	public List<IntervieweeDTO> getInterviewees() {
 		List<Interviewee> interviewees=intervieweeRepository.findAll();
 		List<IntervieweeDTO> intervieweeDtos=new ArrayList<>();
-		//List<IntervieweeDTO> intervieweeDtos=modelMapper.map(interviewees,new TypeToken<List<IntervieweeDTO>>() {}.getType());
 		for (Interviewee interviewee:interviewees) {
 			intervieweeDtos.add(intervieweeDto.convertToIntervieweeDto(interviewee));
 		}
@@ -64,16 +61,16 @@ public class IntervieweeService {
 
 	
 
-	public IntervieweeDTO updateInterviewee(int id, IntervieweeDTO intervieweeDto) {
+	public IntervieweeDTO updateInterviewee(int id, IntervieweeDTO intervieweeDto1) {
 
 		
 		Interviewee existingInterviewee = intervieweeRepository.findById(id).orElse(null);
 		if(existingInterviewee==null) {
 			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
 		}
-		BeanUtils.copyProperties(intervieweeDto,existingInterviewee);
+		BeanUtils.copyProperties(intervieweeDto1,existingInterviewee);
 		
-		
+		intervieweeRepository.save(existingInterviewee);
 		return intervieweeDto.convertToIntervieweeDto(existingInterviewee);
 
 	}
