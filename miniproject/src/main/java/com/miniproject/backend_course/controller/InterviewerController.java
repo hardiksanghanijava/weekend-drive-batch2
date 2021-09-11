@@ -20,6 +20,9 @@ public class InterviewerController {
 
 	@Autowired
 	private InterviewerService interviewerService;
+	
+	
+	private InterviewerDto interviewerDto;
 
 	/**
 	 * to add the interviewer details
@@ -27,9 +30,10 @@ public class InterviewerController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public Interviewer addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto) {
-		Interviewer interviewer = interviewerService.convertToInterviewerEntity(interviewerDto);
+	public InterviewerDto addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto1) {
+		Interviewer interviewer = interviewerDto.convertToInterviewerEntity(interviewerDto1);
 		return interviewerService.saveInterviewer(interviewer);
+		
 	}
 
 	/**
@@ -47,13 +51,9 @@ public class InterviewerController {
 	 * @return
 	 */
 	@GetMapping("/view/{id}")
-	public Interviewer findInterviewerById(@PathVariable int id) {
-		Interviewer interviewer = interviewerService.getInterviewerById(id);
-		if (interviewer == null) {
-			throw new InterviewerNotFoundException("invalid interviewer id " + id);
-		}
-
-		return interviewer;
+	public InterviewerDto findInterviewerById(@PathVariable int id) {
+		return interviewerService.getInterviewerById(id);
+		
 	}
 
 	/**
@@ -63,13 +63,11 @@ public class InterviewerController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public Interviewer updateInterviewerById(@PathVariable int id, @RequestBody InterviewerDto interviewerDto) {
-		Interviewer interviewer = interviewerService.convertToInterviewerEntity(interviewerDto);
-		Interviewer interviewer1 = interviewerService.getInterviewerById(id);
-		if (interviewer1 == null) {
-			throw new InterviewerNotFoundException("id--" + id);
-		}
-		return interviewerService.updateInterviewer(interviewer1, interviewer);
+	public InterviewerDto updateInterviewerById(@PathVariable int id, @RequestBody InterviewerDto interviewerDto1) {
+		Interviewer interviewer = interviewerDto.convertToInterviewerEntity(interviewerDto1);
+		InterviewerDto interviewer1 = interviewerService.getInterviewerById(id);
+		Interviewer interviewer2 = interviewerDto.convertToInterviewerEntity(interviewer1);
+		return interviewerService.updateInterviewer(interviewer2, interviewer);
 	}
 
 	/**
@@ -79,11 +77,8 @@ public class InterviewerController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public String deleteInterviewerById(@PathVariable int id) {
-		Interviewer interviewer = interviewerService.getInterviewerById(id);
-		if (interviewer == null) {
-			throw new InterviewerNotFoundException("id-" + id);
-		} else
-			return interviewerService.deleteInterviewer(id);
+		InterviewerDto interviewerDto = interviewerService.getInterviewerById(id);
+		return interviewerService.deleteInterviewer(id);
 
 	}
 }

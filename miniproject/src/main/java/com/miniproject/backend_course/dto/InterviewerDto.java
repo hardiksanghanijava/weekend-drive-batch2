@@ -3,6 +3,10 @@ package com.miniproject.backend_course.dto;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.modelmapper.ModelMapper;
+
+import com.miniproject.backend_course.entity.Interviewer;
+
 @DTO
 public class InterviewerDto {
 	@Id
@@ -27,4 +31,19 @@ public class InterviewerDto {
 		this.name = name;
 	}
 
+public InterviewerDto convertToInterviewerDto(Interviewer interviewer) {
+		
+		ModelMapper mapper =new ModelMapper();
+		InterviewerDto map = mapper.map(interviewer, InterviewerDto.class);
+		return map;
+		
+	}
+	
+	public Interviewer convertToInterviewerEntity(InterviewerDto interviewerDto)  {
+		
+		ModelMapper mapper = new ModelMapper();
+		Interviewer map = mapper.map(interviewerDto, Interviewer.class);
+		return map;
+	}
+	
 }
