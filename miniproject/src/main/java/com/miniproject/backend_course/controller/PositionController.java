@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miniproject.backend_course.dto.PositionDto;
-import com.miniproject.backend_course.entity.Positions;
-import com.miniproject.backend_course.exception.PositionNotFoundException;
 import com.miniproject.backend_course.service.PositionService;
 
 @RestController
@@ -31,8 +29,8 @@ public class PositionController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public List<Positions> findAllPositions() {
-		return this.positionService.getPositions();
+	public List<PositionDto> findAllPositions() {
+		return positionService.getPositions();
 
 	}
 
@@ -43,14 +41,9 @@ public class PositionController {
 	 * @return
 	 */
 	@GetMapping("/view/{id}")
-	public Positions findPositionsById(@PathVariable int id) {
+	public PositionDto findPositionsById(@PathVariable int id) {
 
-		Positions position = positionService.getPositionsById(id);
-		if (position == null) {
-			throw new PositionNotFoundException("invalid position id " + id);
-		}
-
-		return position;
+	   return positionService.getPositionsById(id);
 	}
 
 	
@@ -60,11 +53,12 @@ public class PositionController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public Positions addPositions(@Valid @RequestBody PositionDto positionDto) {
-		Positions positions = positionService.convertToPositionEntity(positionDto);
-
-		return positionService.savePosition(positions);
+	public PositionDto addPosition(@Valid @RequestBody PositionDto positionDto) throws Exception {
+		return positionService.savePosition(positionDto);
 	}
+	
+	
+	
 
 	
 	/**
@@ -73,15 +67,14 @@ public class PositionController {
 	 * @param positionDto
 	 * @return
 	 */
+
 	@PutMapping("/update/{id}")
-	public Positions updatePositionsById(@PathVariable int id, @RequestBody PositionDto positionDto) {
-		Positions positions = positionService.convertToPositionEntity(positionDto);
-		Positions positions1 = positionService.getPositionsById(id);
-		if (positions1 == null) {
-			throw new PositionNotFoundException("Id-" + id);
-		}
-		return this.positionService.updatePosition(positions1, positions);
+	public PositionDto updatePositionById(@PathVariable int id, @RequestBody PositionDto positionDto) {
+		
+		return positionService.updatePosition(id,positionDto);
+
 	}
+
 
 	
 	/**
@@ -91,13 +84,7 @@ public class PositionController {
 	 */
 	@DeleteMapping("/delete/{id}")
 	public String deletePositionsById(@PathVariable int id) {
-		Positions positions = this.positionService.getPositionsById(id);
-		if (positions == null) {
-			throw new PositionNotFoundException("id--" + id);
-		} else {
 			return positionService.deleteposition(id);
-
-		}
 	}
 
 }

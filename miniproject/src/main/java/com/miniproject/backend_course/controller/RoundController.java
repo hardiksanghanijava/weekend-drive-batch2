@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miniproject.backend_course.dto.RoundDto;
-import com.miniproject.backend_course.entity.Round;
-import com.miniproject.backend_course.exception.RoundNotFoundException;
 import com.miniproject.backend_course.service.RoundService;
 
 @RestController
@@ -30,8 +28,9 @@ public class RoundController {
 	 * to display all the round
 	 * @return
 	 */
+	
 	@GetMapping("/list")
-	public List<Round> getAllRound() {
+	public List<RoundDto> getAllRound() {
 		return roundservice.getroRounds();
 	}
   
@@ -41,17 +40,8 @@ public class RoundController {
 	 * @return
 	 */
 	@GetMapping("/view/{id}")
-	public Round findRoundById(@PathVariable("id") int id) {
-
-		Round round = this.roundservice.getroRoundById(id);
-
-		if (round == null) {
-			throw new RoundNotFoundException("invalid interviewer id " + id);
-
-		}
-
-		return round;
-
+	public RoundDto findRoundById(@PathVariable("id") int id) {
+		 return roundservice.getroRoundById(id);
 	}
 
 	/**
@@ -60,26 +50,21 @@ public class RoundController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public Round addRound(@Valid @RequestBody RoundDto roundDto) {
-		Round round = roundservice.convertToRoundEntity(roundDto);
-
-		return roundservice.saveRound(round);
+	public RoundDto addRound(@Valid @RequestBody RoundDto roundDto)throws Exception {
+		return roundservice.saveRound(roundDto);
 	}
 
 	/**
-	 * to updae the round details
+	 * to update the round details
 	 * @param id
 	 * @param roundDto
 	 * @return
 	 */
+	
+	
 	@PutMapping("/update/{id}")
-	public Round updateroundById(@PathVariable int id, @RequestBody RoundDto roundDto) {
-		Round round = roundservice.convertToRoundEntity(roundDto);
-		Round round1 = roundservice.getroRoundById(id);
-		if (round1 == null) {
-			throw new RoundNotFoundException("id--" + id);
-		}
-		return this.roundservice.updateRound(round1, round);
+	public RoundDto updateroundById(@PathVariable int id, @RequestBody RoundDto roundDto) {
+		return roundservice.updateRound(id, roundDto);
 	}
 
 	/**
@@ -87,14 +72,11 @@ public class RoundController {
 	 * @param id
 	 * @return
 	 */
+	
 	@DeleteMapping("/delete/{id}")
 	public String deleteRoundById(@PathVariable("id") int id) {
-		Round round = this.roundservice.getroRoundById(id);
-		if (round == null) {
-			throw new RoundNotFoundException("id--" + id);
-		} else {
-			return this.roundservice.deleteRound(id);
+			return roundservice.deleteRound(id);
 		}
-	}
+	
 
 }

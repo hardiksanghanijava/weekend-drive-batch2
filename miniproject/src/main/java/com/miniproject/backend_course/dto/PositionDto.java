@@ -3,6 +3,12 @@ package com.miniproject.backend_course.dto;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
+import com.miniproject.backend_course.entity.Positions;
+
+@Component
 @DTO
 public class PositionDto {
 
@@ -35,6 +41,20 @@ public class PositionDto {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	
+	
+	public Positions convertToPositionEntity(PositionDto positionDto) {
+		ModelMapper modelMapper = new ModelMapper();
+		Positions positions = modelMapper.map(positionDto, Positions.class);
+		return positions;
+	}
+	
+	public PositionDto convertToPositionDto(Positions positions) {
+		ModelMapper modelMapper = new ModelMapper();
+		PositionDto positionDto = modelMapper.map(positions, PositionDto.class);
+		return positionDto;
 	}
 
 }

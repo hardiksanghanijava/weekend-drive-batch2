@@ -1,60 +1,84 @@
 package com.miniproject.backend_course.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.RollbackException;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.miniproject.backend_course.dto.PositionDto;
 import com.miniproject.backend_course.entity.Positions;
+import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
+import com.miniproject.backend_course.exception.PositionNotFoundException;
 import com.miniproject.backend_course.repository.PositionDao;
 
 @Service
 public class PositionServiceimpl implements PositionService {
 	@Autowired
 	private PositionDao positionrepositiory;
+	@Autowired
+	private PositionDto positionDto;
 
 	@Override
-	public List<Positions> getPositions() {
-
-		return positionrepositiory.findAll();
+	public List<PositionDto> getPositions() {
+          List<Positions> positions = positionrepositiory.findAll();
+          List<PositionDto> positionDtos = new ArrayList<>();
+          for (Positions positions1:positions) {
+        	  positionDtos.add(positionDto.convertToPositionDto(positions1));
+  		}
+          return positionDtos;
+       
+		
 	}
+
+	
 
 	@Override
-	public Positions getPositionsById(int positionid) {
-		return positionrepositiory.findById(positionid).orElse(null);
+	public PositionDto getPositionsById(int id) {
+		Positions positions = positionrepositiory.findById(id).orElse(null);
+		if (positions==null) {
+			throw new PositionNotFoundException("invalid position id"+id);
+			
+		}
+	   PositionDto positionDto1 = positionDto.convertToPositionDto(positions);
+	   return positionDto1;
 
 	}
+	
+	
+	public PositionDto savePosition(PositionDto positionDto)throws Exception {
+		
+		Positions positions= positionDto.convertToPositionEntity(positionDto);
+		Positions positions2= positionrepositiory.save(positions);
+		System.out.println(positions2);
+		System.out.println(positionDto.convertToPositionDto(positions2));
+		return positionDto.convertToPositionDto(positions2);
+	}
+
+
 
 	@Override
-	public Positions savePosition(Positions positions) throws RollbackException {
-		return positionrepositiory.save(positions);
+	public String deleteposition(int id) {
+	     Positions positions = positionrepositiory.findById(id).orElse(null);
+	     if (positions==null) {
+	    	 throw new IntervieweeNotFoundException("Invalid Position"+id);
+			
+		}
+	     positionrepositiory.deleteById(id);
+	     return "position removed "+id;
 	}
-
-	@Override
-	public Positions updatePosition(Positions positions1, Positions positions) {
-		Positions p1 = positionrepositiory.findById(positions1.getId()).orElse(null);
-
-		p1.setDescription(positions.getDescription());
-		p1.setTitle(positions.getTitle());
-		return positionrepositiory.save(p1);
+	
+	
+	public PositionDto updatePosition(int id, PositionDto positionDto) {
+		  Positions positions = positionrepositiory.findById(id).orElse(null);
+		  if (positions==null) {
+               throw new PositionNotFoundException("invalid position--"+id);			
+		}
+		  BeanUtils.copyProperties(positionDto, positions);
+		  positionrepositiory.save(positions);
+		  return positionDto.convertToPositionDto(positions);
+		
 	}
-
-	@Override
-	public String deleteposition(int positionid) {
-		positionrepositiory.deleteById(positionid);
-
-		return "Position deleted " + positionid;
-	}
-
-	@Override
-	public Positions convertToPositionEntity(PositionDto positionDto) {
-		ModelMapper modelMapper = new ModelMapper();
-		Positions positions = modelMapper.map(positionDto, Positions.class);
-		return positions;
-
-	}
-
+    
 }
