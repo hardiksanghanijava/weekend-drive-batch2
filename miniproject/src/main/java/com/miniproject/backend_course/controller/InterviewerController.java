@@ -40,7 +40,7 @@ public class InterviewerController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public List<Interviewer> findAllInterviewers() {
+	public List<InterviewerDto> findAllInterviewers() {
 		return interviewerService.getInterviewers();
 	}
 

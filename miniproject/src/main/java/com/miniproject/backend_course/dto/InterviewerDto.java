@@ -4,9 +4,11 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import com.miniproject.backend_course.entity.Interviewer;
 
+@Component
 @DTO
 public class InterviewerDto {
 	@Id
