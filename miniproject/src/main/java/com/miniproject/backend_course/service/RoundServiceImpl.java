@@ -17,15 +17,14 @@ public class RoundServiceImpl implements RoundService {
 	@Autowired
 	private RoundDao roundrepository;
 
-	@Autowired
-	private RoundDto roundDto;
+
 
 	@Override
 	public List<RoundDto> getroRounds() {
 		List<Round> round = roundrepository.findAll();
 		List<RoundDto> roundDtos = new ArrayList<>();
 		for (Round round2 : round) {
-			roundDtos.add(roundDto.convertToRoundDto(round2));
+			roundDtos.add(RoundDto.convertToRoundDto(round2));
 		}
 		return roundDtos;
 
@@ -38,7 +37,7 @@ public class RoundServiceImpl implements RoundService {
 			throw new RoundNotFoundException("invalid round id" + id);
 
 		}
-		RoundDto roundDto1 = roundDto.convertToRoundDto(round);
+		RoundDto roundDto1 = RoundDto.convertToRoundDto(round);
 		return roundDto1;
 
 	}
@@ -56,11 +55,11 @@ public class RoundServiceImpl implements RoundService {
 
 	@Override
 	public RoundDto saveRound(RoundDto roundDto) throws Exception {
-		Round round = roundDto.convertToRoundEntity(roundDto);
+		Round round = RoundDto.convertToRoundEntity(roundDto);
 		Round round2 = roundrepository.save(round);
 		System.out.println(round2);
-		System.out.println(roundDto.convertToRoundDto(round2));
-		return roundDto.convertToRoundDto(round2);
+		System.out.println(RoundDto.convertToRoundDto(round2));
+		return RoundDto.convertToRoundDto(round2);
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class RoundServiceImpl implements RoundService {
 	   
 		BeanUtils.copyProperties(roundDto, r1);
 		roundrepository.save(r1);
-		return roundDto.convertToRoundDto(r1);
+		return RoundDto.convertToRoundDto(r1);
 	}
 
 }

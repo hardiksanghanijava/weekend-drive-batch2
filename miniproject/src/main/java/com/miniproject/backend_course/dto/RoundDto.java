@@ -40,13 +40,13 @@ public class RoundDto {
 		this.sequence = sequence;
 	}
 
-	public Round convertToRoundEntity(RoundDto roundDto) {
+	public static Round convertToRoundEntity(RoundDto roundDto) {
 		ModelMapper modelMapper = new ModelMapper();
 		Round round = modelMapper.map(roundDto, Round.class);
 		return round;
 	}
 
-	public RoundDto convertToRoundDto(Round round) {
+	public static RoundDto convertToRoundDto(Round round) {
 		ModelMapper modelMapper = new ModelMapper();
 		RoundDto roundDto = modelMapper.map(round, RoundDto.class);
 		return roundDto;

@@ -17,15 +17,14 @@ import com.miniproject.backend_course.repository.PositionDao;
 public class PositionServiceimpl implements PositionService {
 	@Autowired
 	private PositionDao positionrepositiory;
-	@Autowired
-	private PositionDto positionDto;
+
 
 	@Override
 	public List<PositionDto> getPositions() {
           List<Positions> positions = positionrepositiory.findAll();
           List<PositionDto> positionDtos = new ArrayList<>();
           for (Positions positions1:positions) {
-        	  positionDtos.add(positionDto.convertToPositionDto(positions1));
+        	  positionDtos.add(PositionDto.convertToPositionDto(positions1));
   		}
           return positionDtos;
        
@@ -41,7 +40,7 @@ public class PositionServiceimpl implements PositionService {
 			throw new PositionNotFoundException("invalid position id"+id);
 			
 		}
-	   PositionDto positionDto1 = positionDto.convertToPositionDto(positions);
+	   PositionDto positionDto1 = PositionDto.convertToPositionDto(positions);
 	   return positionDto1;
 
 	}
@@ -49,11 +48,11 @@ public class PositionServiceimpl implements PositionService {
 	
 	public PositionDto savePosition(PositionDto positionDto)throws Exception {
 		
-		Positions positions= positionDto.convertToPositionEntity(positionDto);
+		Positions positions= PositionDto.convertToPositionEntity(positionDto);
 		Positions positions2= positionrepositiory.save(positions);
 		System.out.println(positions2);
-		System.out.println(positionDto.convertToPositionDto(positions2));
-		return positionDto.convertToPositionDto(positions2);
+		System.out.println(PositionDto.convertToPositionDto(positions2));
+		return PositionDto.convertToPositionDto(positions2);
 	}
 
 
@@ -77,7 +76,7 @@ public class PositionServiceimpl implements PositionService {
 		}
 		  BeanUtils.copyProperties(positionDto, positions);
 		  positionrepositiory.save(positions);
-		  return positionDto.convertToPositionDto(positions);
+		  return PositionDto.convertToPositionDto(positions);
 		
 	}
     

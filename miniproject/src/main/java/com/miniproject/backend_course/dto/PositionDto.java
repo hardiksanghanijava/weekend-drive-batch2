@@ -45,13 +45,13 @@ public class PositionDto {
 	
 	
 	
-	public Positions convertToPositionEntity(PositionDto positionDto) {
+	public static Positions convertToPositionEntity(PositionDto positionDto) {
 		ModelMapper modelMapper = new ModelMapper();
 		Positions positions = modelMapper.map(positionDto, Positions.class);
 		return positions;
 	}
 	
-	public PositionDto convertToPositionDto(Positions positions) {
+	public static PositionDto convertToPositionDto(Positions positions) {
 		ModelMapper modelMapper = new ModelMapper();
 		PositionDto positionDto = modelMapper.map(positions, PositionDto.class);
 		return positionDto;
