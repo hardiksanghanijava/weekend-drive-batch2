@@ -10,7 +10,7 @@ public interface RoundService {
 
 	public RoundDto getroRoundById(int positionid);
 
-	public String deleteRound(int id);
+	public void deleteRound(int id);
 
 	public RoundDto updateRound(int id, RoundDto roundDto);
 

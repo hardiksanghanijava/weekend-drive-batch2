@@ -13,7 +13,7 @@ public interface PositionService {
 
 	
 
-	public String deleteposition(int positionid);
+	public void deleteposition(int positionid);
 
 	
 

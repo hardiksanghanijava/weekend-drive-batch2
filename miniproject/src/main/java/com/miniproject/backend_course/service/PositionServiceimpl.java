@@ -23,8 +23,8 @@ public class PositionServiceimpl implements PositionService {
 	public List<PositionDto> getPositions() {
           List<Positions> positions = positionrepositiory.findAll();
           List<PositionDto> positionDtos = new ArrayList<>();
-          for (Positions positions1:positions) {
-        	  positionDtos.add(PositionDto.convertToPositionDto(positions1));
+          for (Positions position:positions) {
+        	  positionDtos.add(PositionDto.convertToPositionDto(position));
   		}
           return positionDtos;
        
@@ -40,8 +40,8 @@ public class PositionServiceimpl implements PositionService {
 			throw new PositionNotFoundException("invalid position id"+id);
 			
 		}
-	   PositionDto positionDto1 = PositionDto.convertToPositionDto(positions);
-	   return positionDto1;
+	   PositionDto positionDto = PositionDto.convertToPositionDto(positions);
+	   return positionDto;
 
 	}
 	
@@ -49,23 +49,22 @@ public class PositionServiceimpl implements PositionService {
 	public PositionDto savePosition(PositionDto positionDto)throws Exception {
 		
 		Positions positions= PositionDto.convertToPositionEntity(positionDto);
-		Positions positions2= positionrepositiory.save(positions);
-		System.out.println(positions2);
-		System.out.println(PositionDto.convertToPositionDto(positions2));
-		return PositionDto.convertToPositionDto(positions2);
+		Positions position= positionrepositiory.save(positions);
+		System.out.println(position);
+		System.out.println(PositionDto.convertToPositionDto(position));
+		return PositionDto.convertToPositionDto(position);
 	}
 
 
 
 	@Override
-	public String deleteposition(int id) {
+	public void deleteposition(int id) {
 	     Positions positions = positionrepositiory.findById(id).orElse(null);
 	     if (positions==null) {
 	    	 throw new IntervieweeNotFoundException("Invalid Position"+id);
 			
 		}
 	     positionrepositiory.deleteById(id);
-	     return "position removed "+id;
 	}
 	
 	

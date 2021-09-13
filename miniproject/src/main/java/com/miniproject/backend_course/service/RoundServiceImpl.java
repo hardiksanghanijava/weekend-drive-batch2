@@ -37,42 +37,42 @@ public class RoundServiceImpl implements RoundService {
 			throw new RoundNotFoundException("invalid round id" + id);
 
 		}
-		RoundDto roundDto1 = RoundDto.convertToRoundDto(round);
-		return roundDto1;
+		RoundDto roundDto = RoundDto.convertToRoundDto(round);
+		return roundDto;
 
 	}
 
 	@Override
-	public String deleteRound(int id) {
+	public void deleteRound(int id) {
 
 		Round round = roundrepository.findById(id).orElse(null);
 		if (round == null) {
 			throw new RoundNotFoundException("Invalid Round" + id);
 		}
 		roundrepository.deleteById(id);
-		return "round removed" + id;
+	
 	}
 
 	@Override
 	public RoundDto saveRound(RoundDto roundDto) throws Exception {
 		Round round = RoundDto.convertToRoundEntity(roundDto);
-		Round round2 = roundrepository.save(round);
-		System.out.println(round2);
-		System.out.println(RoundDto.convertToRoundDto(round2));
-		return RoundDto.convertToRoundDto(round2);
+		Round roundentity = roundrepository.save(round);
+		System.out.println(roundentity);
+		System.out.println(RoundDto.convertToRoundDto(roundentity));
+		return RoundDto.convertToRoundDto(roundentity);
 	}
 
 	@Override
 	public RoundDto updateRound(int id, RoundDto roundDto) {
-		Round r1 = roundrepository.findById(id).orElse(null);
-		if (r1 == null) {
+		Round round = roundrepository.findById(id).orElse(null);
+		if (round == null) {
 			throw new RoundNotFoundException("Invalid round id" + id);
 
 		}
 	   
-		BeanUtils.copyProperties(roundDto, r1);
-		roundrepository.save(r1);
-		return RoundDto.convertToRoundDto(r1);
+		BeanUtils.copyProperties(roundDto, round);
+		roundrepository.save(round);
+		return RoundDto.convertToRoundDto(round);
 	}
 
 }
