@@ -21,22 +21,21 @@ public class InterviewService {
 	@Autowired
 	private InterviewRepository interviewRepository;
 	
-	@Autowired
-	private InterviewDTO interviewDto;
+	
 
 	
 	
-	public InterviewDTO saveInterview(InterviewDTO product){
-		Interview interview=interviewDto.convertToInterviewEntity(product);
-		Interview interview1=interviewRepository.save(interview);
-		return interviewDto.convertToInterviewDto(interview1);
+	public InterviewDTO saveInterview(InterviewDTO interviewDto){
+		Interview interview=InterviewDTO.convertToInterviewEntity(interviewDto);
+		
+		return InterviewDTO.convertToInterviewDto(interviewRepository.save(interview));
 	}
 
 	public List<InterviewDTO> getInterviews() {
 		List<Interview> interviews=interviewRepository.findAll();
 		List<InterviewDTO> interviewDtos=new ArrayList<>();
 		for (Interview interview:interviews) {
-			interviewDtos.add(interviewDto.convertToInterviewDto(interview));
+			interviewDtos.add(InterviewDTO.convertToInterviewDto(interview));
 		}
 		return interviewDtos;
 		
@@ -47,8 +46,7 @@ public class InterviewService {
 		if(interview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interviewee id " + id);
 		}
-		InterviewDTO interviewDto1 = interviewDto.convertToInterviewDto(interview);
-		return interviewDto1;
+		return InterviewDTO.convertToInterviewDto(interview);
 	}
 
 	public String deleteInterview(int id) {
@@ -65,42 +63,42 @@ public class InterviewService {
 		if(interview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interview id " + id);
 		}
-		InterviewDTO interviewDto1 = interviewDto.convertToInterviewDto(interview);
-		return interviewDto1.getStatus();
+		InterviewDTO interviewDto = InterviewDTO.convertToInterviewDto(interview);
+		return interviewDto.getStatus();
 	}
 	 
 
-	public InterviewDTO updateInterview(int id, InterviewDTO interviewDto1) {
+	public InterviewDTO updateInterview(int id, InterviewDTO interviewDto) {
 
 		Interview existingInterview = interviewRepository.findById(id).orElse(null);
 		if(existingInterview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interviewee id " + id);
 		}
-		BeanUtils.copyProperties(interviewDto1,existingInterview);
+		BeanUtils.copyProperties(interviewDto,existingInterview);
 		interviewRepository.save(existingInterview);
 		
-		return interviewDto.convertToInterviewDto(existingInterview);
+		return InterviewDTO.convertToInterviewDto(existingInterview);
 
 		
 	}
 
-	public InterviewDTO rescheduledInterview(int id, InterviewDTO interviewDto1) {
+	public InterviewDTO rescheduledInterview(int id, InterviewDTO interviewDto) {
 		Interview interview = interviewRepository.findById(id).orElse(null);
 		if(interview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interviewee id " + id);
 		}
 		String s="Rescheduled";
-		InterviewDTO interviewDto2 = interviewDto.convertToInterviewDto(interview);
-		if(interviewDto2.getStatus().equals(s)) {
+		String status=InterviewDTO.convertToInterviewDto(interview).getStatus();
+		if(status.equals(s)) {
 			
 			
-			BeanUtils.copyProperties(interviewDto1,interview);
+			BeanUtils.copyProperties(interviewDto,interview);
 			
 			interviewRepository.save(interview);
 		}
 		
 		
-		return interviewDto.convertToInterviewDto(interview);
+		return InterviewDTO.convertToInterviewDto(interview);
 	}
 
 	

@@ -20,13 +20,11 @@ public class IntervieweeService {
 	@Autowired
 	private IntervieweeRepository intervieweeRepository;
 
-	@Autowired
-	private IntervieweeDTO intervieweeDto;
 	
-	public IntervieweeDTO saveInterviewee(IntervieweeDTO product) throws Exception {
-		Interviewee interviewee=intervieweeDto.convertToIntervieweeEntity(product);
-		Interviewee interviewee1=intervieweeRepository.save(interviewee);
-		return intervieweeDto.convertToIntervieweeDto(interviewee1);
+	public IntervieweeDTO saveInterviewee(IntervieweeDTO intervieweeDto) throws Exception {
+		Interviewee interviewee=IntervieweeDTO.convertToIntervieweeEntity(intervieweeDto);
+		
+		return IntervieweeDTO.convertToIntervieweeDto(intervieweeRepository.save(interviewee));
 	}
 	
 
@@ -34,7 +32,7 @@ public class IntervieweeService {
 		List<Interviewee> interviewees=intervieweeRepository.findAll();
 		List<IntervieweeDTO> intervieweeDtos=new ArrayList<>();
 		for (Interviewee interviewee:interviewees) {
-			intervieweeDtos.add(intervieweeDto.convertToIntervieweeDto(interviewee));
+			intervieweeDtos.add(IntervieweeDTO.convertToIntervieweeDto(interviewee));
 		}
 		return intervieweeDtos;
 	}
@@ -46,8 +44,7 @@ public class IntervieweeService {
 		if(interviewee==null) {
 			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
 		}
-		IntervieweeDTO intervieweeDto1 = intervieweeDto.convertToIntervieweeDto(interviewee);
-		return intervieweeDto1;
+		return IntervieweeDTO.convertToIntervieweeDto(interviewee);
 	}
 
 	public String deleteInterviewee(int id) {
@@ -61,17 +58,17 @@ public class IntervieweeService {
 
 	
 
-	public IntervieweeDTO updateInterviewee(int id, IntervieweeDTO intervieweeDto1) {
+	public IntervieweeDTO updateInterviewee(int id, IntervieweeDTO intervieweeDto) {
 
 		
 		Interviewee existingInterviewee = intervieweeRepository.findById(id).orElse(null);
 		if(existingInterviewee==null) {
 			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
 		}
-		BeanUtils.copyProperties(intervieweeDto1,existingInterviewee);
+		BeanUtils.copyProperties(intervieweeDto,existingInterviewee);
 		
 		intervieweeRepository.save(existingInterviewee);
-		return intervieweeDto.convertToIntervieweeDto(existingInterviewee);
+		return IntervieweeDTO.convertToIntervieweeDto(existingInterviewee);
 
 	}
 
