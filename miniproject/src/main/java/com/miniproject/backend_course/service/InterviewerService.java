@@ -17,22 +17,21 @@ import java.util.List;
 
 @Service
 public class InterviewerService {
+	
 	@Autowired
 	private InterviewerRepository interviewerRepository;
 	
-	@Autowired
-	private InterviewerDto interviewerDto;
-
+	
 	public InterviewerDto saveInterviewer(InterviewerDto product) {
-		Interviewer interviewer = interviewerDto.convertToInterviewerEntity(product);
-		return interviewerDto.convertToInterviewerDto(interviewerRepository.save(interviewer));
+		Interviewer interviewer = InterviewerDto.convertToInterviewerEntity(product);
+		return InterviewerDto.convertToInterviewerDto(interviewerRepository.save(interviewer));
 	}
 
 	public List<InterviewerDto> getInterviewers() {
 		List<Interviewer> interviewers=interviewerRepository.findAll();
 		List<InterviewerDto> interviewerDtos=new ArrayList<>();
 		for (Interviewer interviewer:interviewers) {
-			interviewerDtos.add(interviewerDto.convertToInterviewerDto(interviewer));
+			interviewerDtos.add(InterviewerDto.convertToInterviewerDto(interviewer));
 		}
 		return interviewerDtos;
 	}
@@ -43,7 +42,7 @@ public class InterviewerService {
 			throw new InterviewerNotFoundException("invalid interviewer id " + id);
 		}
 		
-		return interviewerDto.convertToInterviewerDto(interviewer);
+		return InterviewerDto.convertToInterviewerDto(interviewer);
 	}
 
 	public String deleteInterviewer(int id) {
@@ -55,14 +54,12 @@ public class InterviewerService {
 		return "Interviewer removed !! " + id;
 	}
 
-	public InterviewerDto updateInterviewer(InterviewerDto interviewerDto1) {
-		Interviewer interviewer1 = interviewerRepository.findById(interviewerDto1.getId()).orElse(null);
-		if (interviewer1 == null) {
-			throw new InterviewerNotFoundException("id--" + interviewer1.getId());
+	public InterviewerDto updateInterviewer(InterviewerDto interviewerDto) {
+		Interviewer interviewer = interviewerRepository.findById(interviewerDto.getId()).orElse(null);
+		if (interviewer == null) {
+			throw new InterviewerNotFoundException("id--" + interviewer.getId());
 		}
-		BeanUtils.copyProperties(interviewerDto1,interviewer1);
-		return interviewerDto.convertToInterviewerDto(interviewerRepository.save(interviewer1));
+		BeanUtils.copyProperties(interviewerDto,interviewer);
+		return InterviewerDto.convertToInterviewerDto(interviewerRepository.save(interviewer));
 	}
-
-	
 }
