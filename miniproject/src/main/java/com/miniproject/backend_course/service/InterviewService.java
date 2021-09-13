@@ -49,13 +49,13 @@ public class InterviewService {
 		return InterviewDTO.convertToInterviewDto(interview);
 	}
 
-	public String deleteInterview(int id) {
+	public void deleteInterview(int id) {
 		Interview interview=interviewRepository.findById(id).orElse(null);
 		if(interview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interview id " + id);
 		}
 		interviewRepository.deleteById(id);
-		return "interview removed !! " + id;
+		
 	}
 
 	public String interviewStatusById(int id) {

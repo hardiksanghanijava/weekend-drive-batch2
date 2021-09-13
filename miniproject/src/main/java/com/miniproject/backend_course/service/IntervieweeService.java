@@ -47,13 +47,13 @@ public class IntervieweeService {
 		return IntervieweeDTO.convertToIntervieweeDto(interviewee);
 	}
 
-	public String deleteInterviewee(int id) {
+	public void deleteInterviewee(int id) {
 		Interviewee interviewee=intervieweeRepository.findById(id).orElse(null);
 		if(interviewee==null) {
 			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
 		}
 		intervieweeRepository.deleteById(id);
-		return "interviewee removed !! " + id;
+		
 	}
 
 	
