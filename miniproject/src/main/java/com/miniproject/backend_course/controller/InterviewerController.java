@@ -1,13 +1,15 @@
 package com.miniproject.backend_course.controller;
 
+import com.miniproject.backend_course.dto.ApiResponse;
 import com.miniproject.backend_course.dto.InterviewerDto;
 import com.miniproject.backend_course.entity.Interviewer;
-import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
+
 import com.miniproject.backend_course.exception.InterviewerNotFoundException;
 
 import com.miniproject.backend_course.service.InterviewerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,17 +23,14 @@ public class InterviewerController {
 	@Autowired
 	private InterviewerService interviewerService;
 	
-	
-	private InterviewerDto interviewerDto;
-
 	/**
 	 * to add the interviewer details
 	 * @param interviewerDto
 	 * @return
 	 */
 	@PostMapping("/add")
-	public InterviewerDto addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto) {
-		return interviewerService.saveInterviewer(interviewerDto);
+	public ApiResponse<InterviewerDto> addInterviewer(@Valid @RequestBody InterviewerDto interviewerDto) {
+		return new ApiResponse<>(HttpStatus.OK.value(),"Interviewer added successfully.",interviewerService.saveInterviewer(interviewerDto));
 		
 	}
 
@@ -40,8 +39,8 @@ public class InterviewerController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public List<InterviewerDto> findAllInterviewers() {
-		return interviewerService.getInterviewers();
+	public ApiResponse<List<InterviewerDto>> findAllInterviewers() {
+		return new ApiResponse<>(HttpStatus.OK.value(),"Interviewers list fetched successfully.",interviewerService.getInterviewers());
 	}
 
 	/**
@@ -50,8 +49,8 @@ public class InterviewerController {
 	 * @return
 	 */
 	@GetMapping("/view/{id}")
-	public InterviewerDto findInterviewerById(@PathVariable int id) {
-		return interviewerService.getInterviewerById(id);
+	public ApiResponse<InterviewerDto> findInterviewerById(@PathVariable int id) {
+		return new ApiResponse<>(HttpStatus.OK.value(),"Interviewer by Id fetched successfully.",interviewerService.getInterviewerById(id));
 		
 	}
 
@@ -62,8 +61,8 @@ public class InterviewerController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public InterviewerDto updateInterviewerById(@PathVariable int id, @RequestBody InterviewerDto interviewerDto1) {
-		return interviewerService.updateInterviewer(interviewerDto1);
+	public ApiResponse<InterviewerDto> updateInterviewerById(@PathVariable int id, @RequestBody InterviewerDto interviewerDto1) {
+		return new ApiResponse<>(HttpStatus.OK.value(),"Interviewer with Id is updated successfully.",interviewerService.updateInterviewer(interviewerDto1));
 	}
 
 	/**
@@ -72,8 +71,8 @@ public class InterviewerController {
 	 * @return
 	 */
 	@DeleteMapping("/delete/{id}")
-	public String deleteInterviewerById(@PathVariable int id) {
-		return interviewerService.deleteInterviewer(id);
+	public ApiResponse<String> deleteInterviewerById(@PathVariable int id) {
+		return new ApiResponse<>(HttpStatus.OK.value(),"",interviewerService.deleteInterviewer(id));
 
 	}
 }

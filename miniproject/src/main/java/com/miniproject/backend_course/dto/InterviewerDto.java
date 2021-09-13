@@ -33,7 +33,7 @@ public class InterviewerDto {
 		this.name = name;
 	}
 
-public InterviewerDto convertToInterviewerDto(Interviewer interviewer) {
+public static InterviewerDto convertToInterviewerDto(Interviewer interviewer) {
 		
 		ModelMapper mapper =new ModelMapper();
 		InterviewerDto map = mapper.map(interviewer, InterviewerDto.class);
@@ -41,7 +41,7 @@ public InterviewerDto convertToInterviewerDto(Interviewer interviewer) {
 		
 	}
 	
-	public Interviewer convertToInterviewerEntity(InterviewerDto interviewerDto)  {
+	public static Interviewer convertToInterviewerEntity(InterviewerDto interviewerDto)  {
 		
 		ModelMapper mapper = new ModelMapper();
 		Interviewer map = mapper.map(interviewerDto, Interviewer.class);
