@@ -3,13 +3,17 @@ package com.miniproject.backend_course.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Round_Table")
 public class Round {
 
 	@Id
 	@GeneratedValue
 	private int id;
+	@NotNull(message = "Not empty")
 	private String name;
 	private int sequence;
 

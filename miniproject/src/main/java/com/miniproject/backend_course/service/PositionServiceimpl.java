@@ -11,12 +11,12 @@ import com.miniproject.backend_course.dto.PositionDto;
 import com.miniproject.backend_course.entity.Positions;
 import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
 import com.miniproject.backend_course.exception.PositionNotFoundException;
-import com.miniproject.backend_course.repository.PositionDao;
+import com.miniproject.backend_course.repository.PositionRepository;
 
 @Service
 public class PositionServiceimpl implements PositionService {
 	@Autowired
-	private PositionDao positionrepositiory;
+	private PositionRepository positionrepositiory;
 
 
 	@Override

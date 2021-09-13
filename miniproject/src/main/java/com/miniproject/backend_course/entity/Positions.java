@@ -3,12 +3,16 @@ package com.miniproject.backend_course.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Position_table")
 public class Positions {
 	@Id
 	@GeneratedValue
 	private int id;
+	@NotNull(message = "Not empty")
 	private String title;
 	private String description;
 

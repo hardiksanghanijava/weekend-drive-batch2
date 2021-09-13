@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import com.miniproject.backend_course.dto.RoundDto;
 import com.miniproject.backend_course.entity.Round;
 import com.miniproject.backend_course.exception.RoundNotFoundException;
-import com.miniproject.backend_course.repository.RoundDao;
+import com.miniproject.backend_course.repository.RoundRepository;
 
 @Service
 public class RoundServiceImpl implements RoundService {
 	@Autowired
-	private RoundDao roundrepository;
+	private RoundRepository roundrepository;
 
 
 

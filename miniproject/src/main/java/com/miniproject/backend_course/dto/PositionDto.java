@@ -2,20 +2,19 @@ package com.miniproject.backend_course.dto;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
-
 import com.miniproject.backend_course.entity.Positions;
 
-@Component
+
 @DTO
 public class PositionDto {
 
 	@Id
 	@GeneratedValue
 	private int id;
-
+	@NotNull(message = "Not empty")
 	private String title;
 	private String description;
 

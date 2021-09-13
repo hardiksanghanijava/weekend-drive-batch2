@@ -2,17 +2,18 @@ package com.miniproject.backend_course.dto;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import javax.validation.constraints.NotNull;
 
+import org.modelmapper.ModelMapper;
 import com.miniproject.backend_course.entity.Round;
-@Component
+
 @DTO
 public class RoundDto {
 
 	@Id
 	@GeneratedValue
 	private int id;
+	@NotNull(message = "Not empty")
 	private String name;
 	private int sequence;
 
