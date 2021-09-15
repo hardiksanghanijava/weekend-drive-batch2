@@ -3,8 +3,11 @@ package com.miniproject.backend_course.service;
 import com.miniproject.backend_course.dto.IntervieweeDTO;
 
 import com.miniproject.backend_course.entity.Interviewee;
+import com.miniproject.backend_course.entity.ReturnId;
+
 import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
 import com.miniproject.backend_course.repository.IntervieweeRepository;
+
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +18,19 @@ import java.util.List;
 
 
 
+
 @Service
 public class IntervieweeService {
 	@Autowired
 	private IntervieweeRepository intervieweeRepository;
+	
+	
 
 	
-	public IntervieweeDTO saveInterviewee(IntervieweeDTO intervieweeDto) throws Exception {
+	public ReturnId saveInterviewee(IntervieweeDTO intervieweeDto) throws Exception {
 		Interviewee interviewee=IntervieweeDTO.convertToIntervieweeEntity(intervieweeDto);
 		
-		return IntervieweeDTO.convertToIntervieweeDto(intervieweeRepository.save(interviewee));
+		return new ReturnId(IntervieweeDTO.convertToIntervieweeDto(intervieweeRepository.save(interviewee)).getId());
 	}
 	
 
@@ -47,18 +53,18 @@ public class IntervieweeService {
 		return IntervieweeDTO.convertToIntervieweeDto(interviewee);
 	}
 
-	public void deleteInterviewee(int id) {
+	public ReturnId deleteInterviewee(int id) {
 		Interviewee interviewee=intervieweeRepository.findById(id).orElse(null);
 		if(interviewee==null) {
 			throw new IntervieweeNotFoundException("invalid interviewee id " + id);
 		}
 		intervieweeRepository.deleteById(id);
-		
+		return new ReturnId(id);
 	}
 
 	
 
-	public IntervieweeDTO updateInterviewee(int id, IntervieweeDTO intervieweeDto) {
+	public ReturnId updateInterviewee(int id, IntervieweeDTO intervieweeDto) {
 
 		
 		Interviewee existingInterviewee = intervieweeRepository.findById(id).orElse(null);
@@ -68,7 +74,8 @@ public class IntervieweeService {
 		BeanUtils.copyProperties(intervieweeDto,existingInterviewee);
 		
 		intervieweeRepository.save(existingInterviewee);
-		return IntervieweeDTO.convertToIntervieweeDto(existingInterviewee);
+		
+		return new ReturnId(id);
 
 	}
 

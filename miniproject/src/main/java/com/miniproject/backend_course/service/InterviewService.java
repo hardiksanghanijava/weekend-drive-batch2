@@ -3,8 +3,7 @@ package com.miniproject.backend_course.service;
 import com.miniproject.backend_course.dto.InterviewDTO;
 
 import com.miniproject.backend_course.entity.Interview;
-
-
+import com.miniproject.backend_course.entity.ReturnId;
 import com.miniproject.backend_course.exception.ScheduledInterviewNotFoundException;
 import com.miniproject.backend_course.repository.InterviewRepository;
 
@@ -25,10 +24,11 @@ public class InterviewService {
 
 	
 	
-	public InterviewDTO saveInterview(InterviewDTO interviewDto){
+	public ReturnId saveInterview(InterviewDTO interviewDto){
 		Interview interview=InterviewDTO.convertToInterviewEntity(interviewDto);
+		//interviewRepository.save(interview);
 		
-		return InterviewDTO.convertToInterviewDto(interviewRepository.save(interview));
+		return new ReturnId(InterviewDTO.convertToInterviewDto(interviewRepository.save(interview)).getInterview_id());
 	}
 
 	public List<InterviewDTO> getInterviews() {
@@ -49,12 +49,12 @@ public class InterviewService {
 		return InterviewDTO.convertToInterviewDto(interview);
 	}
 
-	public void deleteInterview(int id) {
+	public ReturnId deleteInterview(int id) {
 		Interview interview=interviewRepository.findById(id).orElse(null);
 		if(interview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interview id " + id);
 		}
-		interviewRepository.deleteById(id);
+		return new ReturnId(id);
 		
 	}
 
@@ -68,7 +68,7 @@ public class InterviewService {
 	}
 	 
 
-	public InterviewDTO updateInterview(int id, InterviewDTO interviewDto) {
+	public ReturnId updateInterview(int id, InterviewDTO interviewDto) {
 
 		Interview existingInterview = interviewRepository.findById(id).orElse(null);
 		if(existingInterview==null) {
@@ -77,12 +77,12 @@ public class InterviewService {
 		BeanUtils.copyProperties(interviewDto,existingInterview);
 		interviewRepository.save(existingInterview);
 		
-		return InterviewDTO.convertToInterviewDto(existingInterview);
+		return new ReturnId(id);
 
 		
 	}
 
-	public InterviewDTO rescheduledInterview(int id, InterviewDTO interviewDto) {
+	public ReturnId rescheduledInterview(int id, InterviewDTO interviewDto) {
 		Interview interview = interviewRepository.findById(id).orElse(null);
 		if(interview==null) {
 			throw new ScheduledInterviewNotFoundException("invalid interviewee id " + id);
@@ -98,7 +98,7 @@ public class InterviewService {
 		}
 		
 		
-		return InterviewDTO.convertToInterviewDto(interview);
+		return new ReturnId(id);
 	}
 
 	
