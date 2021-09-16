@@ -3,6 +3,7 @@ package com.miniproject.backend_course.service;
 import java.util.List;
 
 import com.miniproject.backend_course.dto.RoundDto;
+import com.miniproject.backend_course.entity.ReturnId;
 
 public interface RoundService {
 
@@ -10,11 +11,11 @@ public interface RoundService {
 
 	public RoundDto getroRoundById(int positionid);
 
-	public void deleteRound(int id);
+	public ReturnId deleteRound(int id);
 
-	public RoundDto updateRound(int id, RoundDto roundDto);
+	public ReturnId updateRound(int id, RoundDto roundDto);
 
-	public RoundDto saveRound(RoundDto roundDto)throws Exception;
+	public ReturnId saveRound(RoundDto roundDto)throws Exception;
 
 	
 }

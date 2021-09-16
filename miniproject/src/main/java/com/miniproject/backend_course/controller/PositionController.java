@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miniproject.backend_course.dto.ApiResponse;
 import com.miniproject.backend_course.dto.PositionDto;
+import com.miniproject.backend_course.entity.ReturnId;
 import com.miniproject.backend_course.service.PositionService;
 
 @RestController
@@ -59,7 +60,7 @@ public class PositionController {
 	 */
 
 	@PostMapping("/add")
-	public ApiResponse<PositionDto> addPosition(@Valid @RequestBody PositionDto positionDto) throws Exception {
+	public ApiResponse<ReturnId> addPosition(@Valid @RequestBody PositionDto positionDto) throws Exception {
 		return new ApiResponse<>(HttpStatus.OK.value(), "Position saved successfully.",
 				positionService.savePosition(positionDto));
 	}
@@ -73,7 +74,7 @@ public class PositionController {
 	 */
 
 	@PutMapping("/update/{id}")
-	public ApiResponse<PositionDto> updatePositionById(@PathVariable int id, @RequestBody PositionDto positionDto) {
+	public ApiResponse<ReturnId> updatePositionById(@PathVariable int id, @RequestBody PositionDto positionDto) {
 
 		return new ApiResponse<>(HttpStatus.OK.value(), "Position updated successfully.",
 				positionService.updatePosition(id, positionDto));
@@ -88,44 +89,13 @@ public class PositionController {
 	 */
 
 	@DeleteMapping("/delete/{id}")
-	public ApiResponse<Void> deleteIntervieweeById(@PathVariable int id) {
+	public ApiResponse<ReturnId> deleteIntervieweeById(@PathVariable int id) {
 
 		positionService.deleteposition(id);
 		return new ApiResponse<>(HttpStatus.OK.value(), "Position deleted successfully.", null);
 
 	}
 
-	/*
-	 * @GetMapping("/list") public List<PositionDto> findAllPositions() { return
-	 * positionService.getPositions();
-	 * 
-	 * }
-	 */
-	/*
-	 * @GetMapping("/view/{id}") public PositionDto findPositionsById(@PathVariable
-	 * int id) {
-	 * 
-	 * return positionService.getPositionsById(id); }
-	 */
-	/*
-	 * @PostMapping("/add") public PositionDto addPosition(@Valid @RequestBody
-	 * PositionDto positionDto) throws Exception { return
-	 * positionService.savePosition(positionDto); }
-	 */
-
-	/*
-	 * @PutMapping("/update/{id}") public PositionDto
-	 * updatePositionById(@PathVariable int id, @RequestBody PositionDto
-	 * positionDto) {
-	 * 
-	 * return positionService.updatePosition(id,positionDto);
-	 * 
-	 * }
-	 */
-	/*
-	 * @DeleteMapping("/delete/{id}") public String
-	 * deletePositionsById(@PathVariable int id) { return
-	 * positionService.deleteposition(id); }
-	 */
+	
 
 }

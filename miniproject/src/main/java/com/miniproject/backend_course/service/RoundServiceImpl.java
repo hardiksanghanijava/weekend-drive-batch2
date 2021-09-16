@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.miniproject.backend_course.dto.RoundDto;
+import com.miniproject.backend_course.entity.ReturnId;
 import com.miniproject.backend_course.entity.Round;
 import com.miniproject.backend_course.exception.RoundNotFoundException;
 import com.miniproject.backend_course.repository.RoundRepository;
@@ -43,27 +44,27 @@ public class RoundServiceImpl implements RoundService {
 	}
 
 	@Override
-	public void deleteRound(int id) {
+	public ReturnId deleteRound(int id) {
 
 		Round round = roundrepository.findById(id).orElse(null);
 		if (round == null) {
 			throw new RoundNotFoundException("Invalid Round" + id);
 		}
 		roundrepository.deleteById(id);
-	
+	     return new  ReturnId(id);
 	}
 
 	@Override
-	public RoundDto saveRound(RoundDto roundDto) throws Exception {
+	public ReturnId saveRound(RoundDto roundDto) throws Exception {
 		Round round = RoundDto.convertToRoundEntity(roundDto);
 		Round roundentity = roundrepository.save(round);
 		System.out.println(roundentity);
 		System.out.println(RoundDto.convertToRoundDto(roundentity));
-		return RoundDto.convertToRoundDto(roundentity);
+		return new ReturnId(RoundDto.convertToRoundDto(roundentity).getId());
 	}
 
 	@Override
-	public RoundDto updateRound(int id, RoundDto roundDto) {
+	public ReturnId updateRound(int id, RoundDto roundDto) {
 		Round round = roundrepository.findById(id).orElse(null);
 		if (round == null) {
 			throw new RoundNotFoundException("Invalid round id" + id);
@@ -72,7 +73,7 @@ public class RoundServiceImpl implements RoundService {
 	   
 		BeanUtils.copyProperties(roundDto, round);
 		roundrepository.save(round);
-		return RoundDto.convertToRoundDto(round);
+		return new ReturnId(RoundDto.convertToRoundDto(round).getId());
 	}
 
 }

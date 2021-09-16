@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miniproject.backend_course.dto.ApiResponse;
 import com.miniproject.backend_course.dto.RoundDto;
+import com.miniproject.backend_course.entity.ReturnId;
 import com.miniproject.backend_course.service.RoundService;
 
 @RestController
@@ -58,7 +59,7 @@ public class RoundController {
 	 */
 
 	@PostMapping("/add")
-	public ApiResponse<RoundDto> addRound(@Valid @RequestBody RoundDto roundDto) throws Exception {
+	public ApiResponse<ReturnId> addRound(@Valid @RequestBody RoundDto roundDto) throws Exception {
 		return new ApiResponse<>(HttpStatus.OK.value(), "Round saved successfully.", roundservice.saveRound(roundDto));
 	}
 
@@ -71,7 +72,7 @@ public class RoundController {
 	 */
 
 	@PutMapping("/update/{id}")
-	public ApiResponse<RoundDto> updateRoundById(@PathVariable int id, @RequestBody RoundDto roundDto) {
+	public ApiResponse<ReturnId> updateRoundById(@PathVariable int id, @RequestBody RoundDto roundDto) {
 
 		return new ApiResponse<>(HttpStatus.OK.value(), "Round updated successfully.",
 				roundservice.updateRound(id, roundDto));
@@ -86,31 +87,13 @@ public class RoundController {
 	 */
 
 	@DeleteMapping("/delete/{id}")
-	public ApiResponse<Void> deleteRoundById(@PathVariable int id) {
+	public ApiResponse<ReturnId> deleteRoundById(@PathVariable int id) {
 
 		roundservice.deleteRound(id);
 		return new ApiResponse<>(HttpStatus.OK.value(), "Round deleted successfully.", null);
 
 	}
 
-	/*
-	 * @GetMapping("/list") public List<RoundDto> getAllRound() { return
-	 * roundservice.getroRounds(); }
-	 * 
-	 * @GetMapping("/view/{id}") public RoundDto findRoundById(@PathVariable("id")
-	 * int id) { return roundservice.getroRoundById(id);
-	 * }
-	 * @PostMapping("/add") public RoundDto addRound(@Valid @RequestBody RoundDto
-	 * roundDto)throws Exception { return roundservice.saveRound(roundDto); }
-	 * 
-	 * @PutMapping("/update/{id}") public RoundDto updateroundById(@PathVariable int
-	 * id, @RequestBody RoundDto roundDto) { return roundservice.updateRound(id,
-	 * roundDto); }
-	 * 
-	 * @DeleteMapping("/delete/{id}") public String
-	 * deleteRoundById(@PathVariable("id") int id) { return
-	 * roundservice.deleteRound(id); }
-	 * 
-	 */
+	
 
 }

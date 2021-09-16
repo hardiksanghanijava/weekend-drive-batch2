@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.miniproject.backend_course.dto.PositionDto;
 import com.miniproject.backend_course.entity.Positions;
+import com.miniproject.backend_course.entity.ReturnId;
 import com.miniproject.backend_course.exception.IntervieweeNotFoundException;
 import com.miniproject.backend_course.exception.PositionNotFoundException;
 import com.miniproject.backend_course.repository.PositionRepository;
@@ -46,36 +47,37 @@ public class PositionServiceimpl implements PositionService {
 	}
 	
 	
-	public PositionDto savePosition(PositionDto positionDto)throws Exception {
+	public ReturnId savePosition(PositionDto positionDto)throws Exception {
 		
 		Positions positions= PositionDto.convertToPositionEntity(positionDto);
 		Positions position= positionrepositiory.save(positions);
 		System.out.println(position);
 		System.out.println(PositionDto.convertToPositionDto(position));
-		return PositionDto.convertToPositionDto(position);
+		return new ReturnId(PositionDto.convertToPositionDto(position).getId());
 	}
 
 
 
 	@Override
-	public void deleteposition(int id) {
+	public ReturnId deleteposition(int id) {
 	     Positions positions = positionrepositiory.findById(id).orElse(null);
 	     if (positions==null) {
 	    	 throw new IntervieweeNotFoundException("Invalid Position"+id);
 			
 		}
 	     positionrepositiory.deleteById(id);
+	     return new ReturnId(id);
 	}
 	
 	
-	public PositionDto updatePosition(int id, PositionDto positionDto) {
+	public ReturnId updatePosition(int id, PositionDto positionDto) {
 		  Positions positions = positionrepositiory.findById(id).orElse(null);
 		  if (positions==null) {
                throw new PositionNotFoundException("invalid position--"+id);			
 		}
 		  BeanUtils.copyProperties(positionDto, positions);
 		  positionrepositiory.save(positions);
-		  return PositionDto.convertToPositionDto(positions);
+		  return new ReturnId(PositionDto.convertToPositionDto(positions).getId());
 		
 	}
     
