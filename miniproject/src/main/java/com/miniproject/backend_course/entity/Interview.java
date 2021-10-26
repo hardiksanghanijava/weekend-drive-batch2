@@ -2,6 +2,7 @@ package com.miniproject.backend_course.entity;
 
 import java.sql.Timestamp;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.Where;
 public class Interview {
 
 	@Id
-	// @GeneratedValue
+	@GeneratedValue
 	private int interview_id;
 
 	private Timestamp time;

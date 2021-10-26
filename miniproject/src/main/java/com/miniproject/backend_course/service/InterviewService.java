@@ -11,11 +11,15 @@ import com.miniproject.backend_course.repository.InterviewRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @Service
+
 public class InterviewService {
 	@Autowired
 	private InterviewRepository interviewRepository;
@@ -67,7 +71,7 @@ public class InterviewService {
 		return interviewDto.getStatus();
 	}
 	 
-
+	@Transactional
 	public ReturnId updateInterview(int id, InterviewDTO interviewDto) {
 
 		Interview existingInterview = interviewRepository.findById(id).orElse(null);

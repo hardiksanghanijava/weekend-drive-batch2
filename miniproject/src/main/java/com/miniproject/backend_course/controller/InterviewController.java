@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200")
 @RequestMapping("/api/interview")
 public class InterviewController {
 
@@ -101,7 +102,7 @@ public class InterviewController {
 	 * @param interviewDto
 	 * @return
 	 */
-	
+	@CrossOrigin(origins="http://localhost:4200")
 	@PutMapping("/update/{id}")
 	public ApiResponse<ReturnId> updateInterviewById(@PathVariable int id, @RequestBody InterviewDTO interviewDto) {
 		
