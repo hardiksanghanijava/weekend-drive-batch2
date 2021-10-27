@@ -2,24 +2,17 @@ package com.miniproject.backend_course.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.miniproject.backend_course.dto.InterviewDTO;
 import com.miniproject.backend_course.dto.UserDTO;
-import com.miniproject.backend_course.entity.Interview;
-import com.miniproject.backend_course.entity.ReturnId;
+import com.miniproject.backend_course.entity.JwtUserDetails;
 import com.miniproject.backend_course.entity.ReturnLongId;
-
-import com.miniproject.backend_course.jwt.JwtUserDetails;
 import com.miniproject.backend_course.repository.UserRepository;
 
 @Service

@@ -14,12 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miniproject.backend_course.dto.ApiResponse;
-import com.miniproject.backend_course.dto.InterviewDTO;
-import com.miniproject.backend_course.dto.IntervieweeDTO;
 import com.miniproject.backend_course.dto.UserDTO;
 import com.miniproject.backend_course.entity.ReturnId;
-import com.miniproject.backend_course.jwt.JwtUserDetails;
-import com.miniproject.backend_course.service.InterviewService;
 import com.miniproject.backend_course.service.UserService;
 
 @RestController

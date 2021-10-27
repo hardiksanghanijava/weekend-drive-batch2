@@ -1,19 +1,11 @@
-package com.miniproject.backend_course.jwt.resource;
-
-import java.util.Objects;
+package com.miniproject.backend_course.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.miniproject.backend_course.entity.JwtUserDetails;
 import com.miniproject.backend_course.jwt.JwtTokenUtil;
-import com.miniproject.backend_course.jwt.JwtUserDetails;
+import com.miniproject.backend_course.exception.AuthenticationException;
+import com.miniproject.backend_course.jwt.resource.JwtTokenRequest;
+import com.miniproject.backend_course.jwt.resource.JwtTokenResponse;
 
 @RestController
 @CrossOrigin(origins="http://localhost:4200")

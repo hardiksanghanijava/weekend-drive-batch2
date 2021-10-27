@@ -1,8 +1,8 @@
 package com.miniproject.backend_course.repository;
 
-import com.miniproject.backend_course.entity.Interview;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.miniproject.backend_course.entity.Interview;
 
 public interface InterviewRepository extends JpaRepository<Interview, Integer> {
 

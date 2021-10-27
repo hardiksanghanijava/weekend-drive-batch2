@@ -1,4 +1,4 @@
-package com.miniproject.backend_course.jwt.resource;
+package com.miniproject.backend_course.exception;
 public class AuthenticationException extends RuntimeException {
     public AuthenticationException(String message, Throwable cause) {
         super(message, cause);

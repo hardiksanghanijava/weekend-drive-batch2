@@ -3,7 +3,6 @@ package com.miniproject.backend_course.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 

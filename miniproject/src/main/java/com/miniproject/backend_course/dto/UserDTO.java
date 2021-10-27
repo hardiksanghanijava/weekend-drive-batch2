@@ -5,9 +5,7 @@ import javax.persistence.Id;
 
 import org.modelmapper.ModelMapper;
 
-import com.miniproject.backend_course.entity.Interviewee;
-
-import com.miniproject.backend_course.jwt.JwtUserDetails;
+import com.miniproject.backend_course.entity.JwtUserDetails;
 @DTO
 public class UserDTO {
 

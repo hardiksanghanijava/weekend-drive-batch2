@@ -1,6 +1,7 @@
 package com.miniproject.backend_course.entity;
 
 import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
